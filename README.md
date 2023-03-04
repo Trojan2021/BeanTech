@@ -10,10 +10,14 @@ At Make OHI/O 2023, our project is a demonstration about our goal to bring more 
 
 All these features allow complete control of the temperature of the environment in the best way possible.
 
-*   Want to cool both rooms and it's hotter outside? Use the air conditioning
-*   Want to balance the temperatures between the rooms? Turn on the fan to allow air flow between the rooms
-*   Want to warm up only one room? Turn on the heat in that desired room only
-*   Want to cool a room and it's cooler outside and wind is blowing in it's direction? Open the window to create drafts
+*   Want to cool both rooms and it's hotter outside? 
+    Use the air conditioning
+*   Want to balance the temperatures between the rooms? 
+    Turn on the fan to allow air flow between the rooms
+*   Want to warm up only one room? 
+    Turn on the heat in that desired room only
+*   Want to cool a room and it's cooler outside and wind is blowing in it's direction?
+    Open the window to create drafts
 
 Instead of making each of these decisions ourselves, our goal is to have the program decide to do the best possible solution based on the desired temperature requested by the client. However, in just 24 hours this is a little ambitious so we have created the functionality of each aspect but it still requires manual input. The temperature display is shown using an LCD with each situation to showcase each functionality and how it works.
 
