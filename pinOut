@@ -1,0 +1,15 @@
+Room 1:
+    Window - GPIO 27
+    AC - GPIO 22
+    Heater 1 - GPIO 23
+    Heater 2 - GPIO 25
+
+
+Room 2:
+    Window - GPIO 4
+    Heater 1 - GPIO 5
+    Heater 2 - GPIO 12
+
+
+Middle Fan Power - GPIO 17
+Middle Fan Servo - GPIO 18

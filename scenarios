@@ -1,0 +1,11 @@
+Fan blows from 2 to 1
+
+Goal 65 Current 75 Outside 72 in Room 1:
+    If Room 2 warm:
+        Close middle
+    Else:
+        Open middle
+        Turn on fan
+    
+
+

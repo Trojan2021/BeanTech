@@ -4,7 +4,7 @@ import time
 GPIO.setmode(GPIO.BCM)
 
 # Set the GPIO pin to use for the servo
-servo_pin = 17
+servo_pin = 4
 
 # Set the PWM frequency to 50 Hz
 pwm_frequency = 50

@@ -68,23 +68,8 @@ void loop() {
    } 
   aLastState = aState; // Updates the previous state of the outputA with the current state
 
-  if (Serial.available() > 0)
-  {
-    pi = Serial.parseInt();
-  }
+  Serial.println(String(R1Temp) + "," + String(R2Temp) + "," + String(R1PhotoValue) + "," + String(R2PhotoValue) + "," + String(counter));
 
-  if (pi == 1)
-  {
-    Serial.print(R1Temp);
-    Serial.print(",");
-    Serial.print(R2Temp);
-    Serial.print(",");
-    Serial.print(R1PhotoValue);
-    Serial.print(",");
-    Serial.print(R2PhotoValue);
-    Serial.print(",");
-    Serial.println(counter);
-    //delay(50);
-  }
+
 
 }
