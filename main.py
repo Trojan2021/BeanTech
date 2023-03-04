@@ -1,7 +1,10 @@
 import RPi.GPIO as GPIO
 import time
+import serial
 
-# Init the pins
+
+# Define the serial port and baud rate.
+ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)
 
 # Setup proper board type
 GPIO.setmode(GPIO.BCM)

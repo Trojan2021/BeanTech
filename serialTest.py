@@ -1,18 +1,18 @@
 import serial
-import keyboard
+import time
+
 
 ser = serial.Serial('/dev/ttyACM0', 9600)
+message = int(1)
+print("here")
+ser.write(bytes([message]))
+print("There")
+time.sleep(0.5)
 
-count = 0
+print("No shot")
+incoming = ser.readline()
+print(incoming)
 
-while True:
-    if keyboard.is_pressed('space'):
-        print('Spacebar pressed!')
-        # Do something after the keypress, like break out of a loop
-        break
-    data = ser.readline().decode('utf-8').rstrip()
-    print(data)
-    count += 1   
 ser.close()
 
 

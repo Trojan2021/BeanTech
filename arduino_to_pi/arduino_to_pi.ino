@@ -19,7 +19,7 @@ const int R1Photo = A0;
 const int R2Photo = A1;
 
 // Variables for Rotatory Encoder
-int counter = 0, aState, aLastState;
+int counter = 0, aState, aLastState, pi = 0;
 
 void setup() {
   // Pin Modes for Rotatory Encoder
@@ -31,7 +31,7 @@ void setup() {
   r1.begin();          
   r2.begin();
   // Reads the initial state of the outputA
-  aLastState = digitalRead(outputA);   
+  aLastState = digitalRead(outputA);  
 }
 
 void loop() {
@@ -68,14 +68,23 @@ void loop() {
    } 
   aLastState = aState; // Updates the previous state of the outputA with the current state
 
-  Serial.print(R1Temp);
-  Serial.print(",");
-  Serial.print(R2Temp);
-  Serial.print(",");
-  Serial.print(R1PhotoValue);
-  Serial.print(",");
-  Serial.print(R2PhotoValue);
-  Serial.print(",");
-  Serial.println(counter);
-  delay(50);
+  if (Serial.available() > 0)
+  {
+    pi = Serial.parseInt();
+  }
+
+  if (pi == 1)
+  {
+    Serial.print(R1Temp);
+    Serial.print(",");
+    Serial.print(R2Temp);
+    Serial.print(",");
+    Serial.print(R1PhotoValue);
+    Serial.print(",");
+    Serial.print(R2PhotoValue);
+    Serial.print(",");
+    Serial.println(counter);
+    //delay(50);
+  }
+
 }
