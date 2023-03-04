@@ -11,19 +11,19 @@ At Make OHI/O 2023, our project is a demonstration about our goal to bring more 
 All these features allow complete control of the temperature of the environment in the best way possible.
 
 *   Want to cool both rooms and it's hotter outside? 
-    Use the air conditioning
+    - Use the air conditioning
 *   Want to balance the temperatures between the rooms? 
-    Turn on the fan to allow air flow between the rooms
+    - Turn on the fan to allow air flow between the rooms
 *   Want to warm up only one room? 
-    Turn on the heat in that desired room only
+    - Turn on the heat in that desired room only
 *   Want to cool a room and it's cooler outside and wind is blowing in it's direction?
-    Open the window to create drafts
+    - Open the window to create drafts
 
-Instead of making each of these decisions ourselves, our goal is to have the program decide to do the best possible solution based on the desired temperature requested by the client. However, in just 24 hours this is a little ambitious so we have created the functionality of each aspect but it still requires manual input. The temperature display is shown using an LCD with each situation to showcase each functionality and how it works.
+Instead of making each of these decisions ourselves, our goal is to have the program decide to do the best possible solution based on the desired temperature requested by the client. However, in just 24 hours this is a little ambitious so we have created the functionality of each aspect but it still requires manual input. The temperature display is shown using an LCD with each situation to showcase each functionality and how it works. Looking at existing smart AC systems, they estimate saving users between 10% - 25% on costs. With our hyper-efficient project using AC and heating as minimally as possible, we're estimating saving our uses 20% - 30%. 
 
 How does it work?
 
-All the sensors used (temperature, photoresistors, and a rotatory encoder) are read through the Arduino utilizing the Arduino over the Raspberry Pi for analog input. Once read, we send the information over to the Raspberry Pi from the Arduino. Based on the given information and picked scenario, we control the fans, servos, heating pads, and LCD are all operated using the Pi. TALK ABOUT MAIN PROGRAM ONCE CREATED
+All the sensors used (temperature, photoresistors, and a rotatory encoder) are read through the Arduino utilizing the Arduino over the Raspberry Pi for analog input. Once read, we send the information over to the Raspberry Pi from the Arduino. Based on the given information and picked scenario, we control the fans, servos, heating pads, and LCD are all operated using the Pi. The main program allows customized use of our programmed scenarios with the hardware to simulate our project inside the mock house.
 
 NEXT STEPS:
 
