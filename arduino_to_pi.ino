@@ -77,5 +77,5 @@ void loop() {
   Serial.print(R2PhotoValue);
   Serial.print(",");
   Serial.println(counter);
-  delay(50);
+  //delay(50);
 }
