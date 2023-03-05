@@ -6,9 +6,9 @@ Room 1:
 
 
 Room 2:
-    Window - GPIO 4
-    Heater 1 - GPIO 5
-    Heater 2 - GPIO 12
+    Window - GPIO 21
+    Heater 1 - GPIO 13
+    Heater 2 - GPIO 19
 
 
 Middle Fan Power - GPIO 17

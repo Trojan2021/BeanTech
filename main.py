@@ -1,7 +1,11 @@
 import RPi.GPIO as GPIO
 import time
 import serial
+import sys
 
+
+# Desired temp for Room 1
+desiredTemp = sys.argv[1]
 
 # Define the serial port and baud rate.
 ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)
@@ -65,7 +69,8 @@ def set_servo_position(pwm, angle):
     pwm.ChangeDutyCycle(duty_cycle)
     time.sleep(0.5)
     
-
+while True:
+    pass
 
 
 

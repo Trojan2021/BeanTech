@@ -1,11 +1,112 @@
-Fan blows from 2 to 1
+Fan Blows From 2 to 1
+Warm = > 72
+Cold = < 69
+Neutral = 69 <= x <= 72
 
-Goal 65 Current 75 Outside 72 in Room 1:
-    If Room 2 warm:
-        Close middle
-    Else:
-        Open middle
-        Turn on fan
-    
+Goal: Get Room 1 Cold
+    if Room 1 Warm:
+        Check Room 2
+        Check Outside
+        if Room 2 Warm && Outside Warm:
+            if Room 1 Window Open:
+                Close
+            if Middle Fan Open:
+                Close
+            Turn on AC
+        else if Room 2 Cold && Outside Warm:
+            if Room 1 Window Open:
+                Close
+            if Middle Fan Closed:
+                Open
+            Turn on Fan
+        else if Outside Cold:
+            if Room 1 Window Close:
+                Open
+            if Middle Fan Open:
+                Close
+    else:
+        if Middle Fan Open:
+            Close
+        if Room 1 Window Open:
+            Close
 
+Goal: Get Room 2 Cold
+    if Room 2 Warm:
+        Check Room 1
+        Check Outside
+        if Room 1 Warm && Outside Warm:
+            if Room 2 Window Open:
+                Close
+            if Middle Fan Open:
+                Close
+            Turn on AC
+        else if Room 1 Cold && Outside Warm:
+            if Room 2 Window Open:
+                Close
+            if Middle Fan Closed:
+                Open
+            Turn on AC
+        else if Outside Cold:
+            if Room 2 Window Close:
+                Open
+            if Middle Fan Open:
+                Close
+    else:
+        if Middle Fan Open:
+            Close
+        if Room 2 Window Open:
+            Close
 
+Goal: Get Room 1 Warm
+    if Room 1 Cold:
+        Check Room 2
+        Check Outside
+        if Room 2 Cold && Outside Cold:
+            if Room 1 Window Open:
+                Close
+            if Middle Fan Open:
+                Close
+            Turn on Heaters
+        else if: Room 2 Warm && Outside Cold:
+            if Room 1 Window Open:
+                Close
+            if Middle Fan Closed:
+                Open
+            Turn on Fan
+        else if Outside Warm:
+            if Room 1 Window Closed:
+                Open
+            if Middle Fan Open:
+                Close
+    else:
+        if Middle Fan Open:
+            Close
+        if Room 1 Window Open:
+            Close
+
+Goal: Get Room 2 Warm
+    if Room 2 Cold:
+        Check Room 1
+        Check Outside
+        if Room 1 Cold && Outside Cold:
+            if Room 2 Window Open:
+                Close
+            if Middle Fan Open:
+                Close
+            Turn on Heaters
+        else if: Room 1 Warm && Outside Cold:
+            if Room 2 Window Open:
+                Close
+            if Middle Fan Close:
+                Open
+            Turn on Fan
+        else if: Outside Warm:
+            if Room 2 Window Closed:
+                Open
+            if Middle Fan Open:
+                Close
+    else:
+        if Middle Fan Open:
+            Close
+        if Room 2 Window Open:
+            Close
