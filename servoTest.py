@@ -5,10 +5,10 @@ import sys
 
 GPIO.setmode(GPIO.BCM)
 
-pos = sys.argv[1]
+# pos = sys.argv[2]
 
 # Set the GPIO pin to use for the servo
-servo_pin = 27
+servo_pin = int(sys.argv[1])
 
 # Set the PWM frequency to 50 Hz
 pwm_frequency = 50
@@ -31,13 +31,11 @@ def set_servo_position(angle):
     time.sleep(0.5)
 
 # Set the servo position to 0 degrees (minimum position)
-set_servo_position(int(pos))
+set_servo_position(180)
+time.sleep(2)
+set_servo_position(0)
+time.sleep(2)
 
-# Set the servo position to 90 degrees (middle position)
-# set_servo_position(90)
-
-# # Set the servo position to 180 degrees (maximum position)
-# set_servo_position(180)
 
 # Cleanup the GPIO pins
 pwm.stop()
