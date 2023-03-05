@@ -20,8 +20,8 @@ All these features allow complete control of the temperature of the environment 
     - The system will turn on the fan to allow air flow inbetween.
 *   Want to warm up only one room? 
     - Then the system will turn on the heat in the desired room only if the other room is colder.
-*   Want to cool a room while cooler outside and wind is blowing in it's direction?
-    - Then the system will open the window to create a draft.
+*   If a room needs to be coooled, and the outside temperature is cold with a cross breeze.
+    - Then the system will open the window to create an effective draft.
 
 Instead of making each of these decisions ourselves, our goal is to have the program decide to do the best possible solution based on the desired temperature requested by the client. However, in just 24 hours this is a little ambitious so we have created the functionality of each aspect but it still requires manual input. The temperature display is shown using a simple python GUI with each situation to showcase the functionalities and how they work. Looking at existing smart AC systems, they estimate saving users between 10% - 25% on costs. With our hyper-efficient project using AC and heating as minimally as possible, we're estimating saving our users 20% - 30%. 
 
