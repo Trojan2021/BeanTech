@@ -1,6 +1,6 @@
 # The Cool Beans @ Make OHI/O 2023
 
-At Make OHI/O 2023, our project is a demonstration about our goal to bring more energy and cost effective heating and cooling to homes. We built a mock house that contains two separate rooms (however these rooms are identical) with features to maximize our goal. It contains (per room):
+At Make OHI/O 2023, our project is a demonstration of our goal to bring more energy and cost effective heating and cooling to homes. We built a mock house that contains two separate rooms (however these rooms are identical) with features to maximize our goal. It contains (per room):
 
 *   Two heating pads at the bottom of each room, simulating radiant floor heating.
 *   A tubing system with fans and ice water (to simulate chilled water air conditioning)
