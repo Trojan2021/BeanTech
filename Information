@@ -1,9 +1,29 @@
-Fan Blows From 2 to 1
-Warm = > 72
-Cold = < 69
-Neutral = 69 <= x <= 72
+TODO:
+    r2ac
+    rotary encoder - pi
+    lcd
 
-Goal: Get Room 1 Cold
+
+PINOUT:
+    Room 1:
+        Window - GPIO 27
+        AC - GPIO 22
+        Heater 1 - GPIO 23
+        Heater 2 - GPIO 25
+
+
+    Room 2:
+        Window - GPIO 21
+        AC - GPIO 6
+        Heater 1 - GPIO 13
+        Heater 2 - GPIO 19
+
+
+    Middle Fan Power - GPIO 17
+    Middle Fan Servo - GPIO 18
+
+Scenarios:
+    Goal: Get Room 1 Cold
     if Room 1 Warm:
         Check Room 2
         Check Outside

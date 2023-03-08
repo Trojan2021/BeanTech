@@ -1,10 +1,10 @@
 #include <DHT.h>
 
 // Pin Definitions for Temperature Sensors
-#define R1DHTPIN 2      // Pin which is connected to the DHT22 sensor
-#define R2DHTPIN 4      // Pin which is connected to the DHT11 sensor
-#define R1DHT DHT22     // DHT22 sensor type
-#define R2DHT DHT11     // DHT11 sensor type
+#define R1DHTPIN 2  // Pin which is connected to the DHT22 sensor
+#define R2DHTPIN 4  // Pin which is connected to the DHT11 sensor
+#define R1DHT DHT22 // DHT22 sensor type
+#define R2DHT DHT11 // DHT11 sensor type
 
 // Declaring DHT Types
 DHT r1(R1DHTPIN, R1DHT);
@@ -21,20 +21,22 @@ const int R2Photo = A1;
 // Variables for Rotatory Encoder
 int counter = 0, aState, aLastState, pi = 0;
 
-void setup() {
+void setup()
+{
   // Pin Modes for Rotatory Encoder
   pinMode(outputA, INPUT);
   pinMode(outputB, INPUT);
   // Initialize serial communication at 9600 baud
   Serial.begin(9600);
   // Initialize DHT sensors
-  r1.begin();          
+  r1.begin();
   r2.begin();
   // Reads the initial state of the outputA
-  aLastState = digitalRead(outputA);  
+  aLastState = digitalRead(outputA);
 }
 
-void loop() {
+void loop()
+{
 
   // Read Temperature in Celsius
   float R1Temp = r1.readTemperature();
@@ -49,27 +51,34 @@ void loop() {
   int R2PhotoValue = analogRead(R2Photo);
 
   aState = digitalRead(outputA); // Reads the "current" state of the outputA
-   // If the previous and the current state of the outputA are different, that means a Pulse has occured
-   if (aState != aLastState){     
-     // If the outputB state is different to the outputA state, that means the encoder is rotating clockwise
-     if (digitalRead(outputB) != aState) { 
-       if (counter > 39) {
-          counter = 0;
-       } else {
-          counter++;
-       }
-     } else {
-       if (counter < 1) {
-         counter = 40;
-       } else {
-         counter--;
-       }
-     }
-   } 
+  // If the previous and the current state of the outputA are different, that means a Pulse has occured
+  if (aState != aLastState)
+  {
+    // If the outputB state is different to the outputA state, that means the encoder is rotating clockwise
+    if (digitalRead(outputB) != aState)
+    {
+      if (counter > 39)
+      {
+        counter = 0;
+      }
+      else
+      {
+        counter++;
+      }
+    }
+    else
+    {
+      if (counter < 1)
+      {
+        counter = 40;
+      }
+      else
+      {
+        counter--;
+      }
+    }
+  }
   aLastState = aState; // Updates the previous state of the outputA with the current state
 
   Serial.println(String(R1Temp) + "," + String(R2Temp) + "," + String(R1PhotoValue) + "," + String(R2PhotoValue) + "," + String(counter));
-
-
-
 }
