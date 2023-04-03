@@ -1,9 +1,9 @@
-import RPi.GPIO as GPIO
-import time
-import serial
 import sys
-import keyboard
+import time
 
+import keyboard
+import RPi.GPIO as GPIO
+import serial
 
 # Desired temp for Room 1
 desiredTemp = float(sys.argv[1])
@@ -11,7 +11,7 @@ outsideTemp = float(sys.argv[2])
 case = int(sys.argv[3])
 
 # Define the serial port and baud rate.
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
 
 # Setup proper board type
 GPIO.setmode(GPIO.BCM)
@@ -37,7 +37,6 @@ GPIO.setup(r2ac, GPIO.OUT)
 GPIO.setup(r2h1, GPIO.OUT)
 GPIO.setup(r2h2, GPIO.OUT)
 GPIO.setup(mfp, GPIO.OUT)
-
 
 
 # SERVO CONTROL
@@ -73,7 +72,8 @@ def set_servo_position(pwm, angle):
     duty_cycle = ((angle / 180) * (duty_cycle_max - duty_cycle_min)) + duty_cycle_min
     pwm.ChangeDutyCycle(duty_cycle)
     time.sleep(0.5)
-    
+
+
 # Variables
 # For state variables, True is open/on
 r1wState = False
@@ -89,12 +89,12 @@ mfsState = False
 stop_loop = False
 
 try:
-    data = ser.readline().decode('utf-8').rstrip()
+    data = ser.readline().decode("utf-8").rstrip()
 except UnicodeDecodeError as e:
     pass
-    
+
 while not stop_loop:
-    
+
     r1wState = False
     r1acState = False
     r1hState = False
@@ -103,54 +103,54 @@ while not stop_loop:
     r2hState = False
     mfpState = False
     mfsState = False
-    
+
     try:
-        data = ser.readline().decode('utf-8').rstrip()
+        data = ser.readline().decode("utf-8").rstrip()
         values = data.split(",")
         Room1temp = float(values[0])
         Room2temp = float(values[1])
         Room1Light = float(values[2])
         Room2Light = float(values[3])
         Rotary = float(values[4])
-        
+
     except UnicodeDecodeError as e:
         pass
-    
+
     # Goal: Get Room 1 Cold
     # if Room 1 Warm:
     # if desiredTemp < Room1temp:
     if case == 1:
-    #     Turn on AC
+        #     Turn on AC
         r1acState = True
-    #     Check Room 2
-    #     Check Outside
-    #     if Room 2 Warm && Outside Warm:
-    #     if Room2temp > desiredTemp and outsideTemp > desiredTemp:
-    # #         if Room 1 Window Open:
-    #         if r1wState:
-    # #             Close
-    #             r1wState = False
-    # #         if Middle Fan Open:
-    #         if mfpState:
-    # #             Close
-    #             mfpState = False
-    #             mfsState = False
-    #     else if Room 2 Cold && Outside Warm:
+        #     Check Room 2
+        #     Check Outside
+        #     if Room 2 Warm && Outside Warm:
+        #     if Room2temp > desiredTemp and outsideTemp > desiredTemp:
+        # #         if Room 1 Window Open:
+        #         if r1wState:
+        # #             Close
+        #             r1wState = False
+        # #         if Middle Fan Open:
+        #         if mfpState:
+        # #             Close
+        #             mfpState = False
+        #             mfsState = False
+        #     else if Room 2 Cold && Outside Warm:
         if Room2temp <= desiredTemp and outsideTemp > desiredTemp:
-    #         if Room 1 Window Open:
-    #         if r1wState:
-    # #             Close
-    #             r1wState = False
-    # #         if Middle Fan Close:
+            #         if Room 1 Window Open:
+            #         if r1wState:
+            # #             Close
+            #             r1wState = False
+            # #         if Middle Fan Close:
             # if not mfpState:
-    #             Open
+            #             Open
             mfsState = True
             mfpState = True
-    #     else if Outside Cold:
+        #     else if Outside Cold:
         elif outsideTemp < desiredTemp:
-    #         if Room 1 Window Close:
+            #         if Room 1 Window Close:
             # if not r1wState:
-    #             Open
+            #             Open
             r1wState = True
     #         if Middle Fan Open:
     #         if mfpState:
@@ -168,7 +168,7 @@ while not stop_loop:
     #     if r1wState:
     # #         Close
     #         r1wState = False
-            
+
     # Goal: Get Room 2 Cold
     # if Room2temp > desiredTemp:
     if case == 2:
@@ -220,7 +220,6 @@ while not stop_loop:
     #         # Close
     #         r2wState = False
 
-
     # Goal: Get Room 1 Warm
     # elif Room1temp < desiredTemp:
     if case == 3:
@@ -230,7 +229,11 @@ while not stop_loop:
         r1hState = True
 
         # If Sunlight and Room 1 Slightly Cold and Outside Warm
-        if Room1Light > 600 and (Room1temp < desiredTemp - 2 and Room1temp > desiredTemp - 5) and outsideTemp > desiredTemp:
+        if (
+            Room1Light > 600
+            and (Room1temp < desiredTemp - 2 and Room1temp > desiredTemp - 5)
+            and outsideTemp > desiredTemp
+        ):
             # If Room 1 Window Close
             # if not r1wState:
             #     # Open
@@ -267,7 +270,7 @@ while not stop_loop:
             elif outsideTemp > desiredTemp:
                 # If Room 1 Window Close
                 # if not r1wState:
-                    # Open
+                # Open
                 r1wState = True
                 # If Middle Fan Open
                 # if mfpState:
@@ -297,7 +300,11 @@ while not stop_loop:
         r2hState = True
 
         # If Sunlight is present and Room 2 is slightly cold and Outside is Warm
-        if Room2Light > 600 and (Room2temp < desiredTemp - 2 and Room2temp > desiredTemp - 5) and outsideTemp > desiredTemp:
+        if (
+            Room2Light > 600
+            and (Room2temp < desiredTemp - 2 and Room2temp > desiredTemp - 5)
+            and outsideTemp > desiredTemp
+        ):
 
             # # If Room 2 window is open, close it
             # if r2wState:
@@ -353,35 +360,30 @@ while not stop_loop:
         # r2hState = False
 
     if case == 7:
-        #Cool down house at night by creating draft
+        # Cool down house at night by creating draft
         r1wState = True
         r2wState = True
         mfsState = True
         mfpState = True
-        
+
     if case == 8:
         # Open the windows for a nice morning
         r1wState = True
         r2wState = True
-        
+
     if case == 9:
         # Warm room 2, outside is cold and room 1 is warmer than room 2
         mfsState = True
         mfpState = True
-        
+
     if case == 10:
         mfpState = True
         r2wState = True
-        
-        
-
-
 
     # Check for a key event to stop the loop
-    if keyboard.is_pressed('q'):
+    if keyboard.is_pressed("q"):
         stop_loop = True
-        
-    
+
     # Servos
     if r1wState:
         set_servo_position(r1wpwm, 180)
@@ -395,7 +397,7 @@ while not stop_loop:
         set_servo_position(mfspwm, 0)
     else:
         set_servo_position(mfspwm, 180)
-        
+
     # ON/OFF
     if r1acState:
         GPIO.output(r1ac, 1)
@@ -421,11 +423,8 @@ while not stop_loop:
         GPIO.output(r2ac, 1)
     else:
         GPIO.output(r2ac, 0)
-        
-    time.sleep(1)
-        
-    
 
+    time.sleep(1)
 
 
 # Cleanup the GPIO pins
