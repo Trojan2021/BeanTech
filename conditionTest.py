@@ -8,10 +8,9 @@ import tkinter as tk
 
 def runSim():
     # print(f"{heatVar.get()}\n{acVar.get()}")
-    acState = acVar.get()
+    acCheck = acVar.get()
     heatState = heatVar.get()
     room = int(roomSelect.get())
-    desired = desiredTemp.get()
     r1w = False
     r2w = False
     r3w = False
@@ -20,19 +19,23 @@ def runSim():
     r23w = False
     r34w = False
     r41w = False
+    acState = False
 
     # Make sure AC is on
-    if acState:
+    if acCheck:
         # The user wants to cool room 1
         if room == 1:
-            # TODO: Turn on the AC in room 1
-            pass
+            if room1Temp.get() > desiredTemp.get():
+                acState = True
         elif room == 2:
-            pass
+            if room2Temp.get() > desiredTemp.get():
+                acState = True
         elif room == 3:
-            pass
+            if room3Temp.get() > desiredTemp.get():
+                acState = True
         elif room == 4:
-            pass
+            if room4Temp.get() > desiredTemp.get():
+                acState = True
         else:
             print("Error: Invalid room number!")
     else:
@@ -49,6 +52,9 @@ def runSim():
         else:
             print("Error: Invalid room number!")
 
+    if heatState:
+        pass
+
     print(f"AC State: {acState}")
     print(f"Heat State: {heatState}")
     print(f"Room 1 Window: {r1w}")
@@ -64,45 +70,75 @@ def runSim():
 root = tk.Tk()
 root.title("Scenario Test")
 
+rowCount = 0
+
 outsideLabel = tk.Label(root, text="Outside Temp:")
 outsideLabel.grid(row=0, column=0)
 
 outsideTemp = tk.Entry(root)
 outsideTemp.grid(row=0, column=1)
 
-room1 = tk.Label(root, text="Room 1 Temp")
-room1.grid(row=1, column=0)
+rowCount += 1
+
+room1Label = tk.Label(root, text="Room 1 Temp")
+room1Label.grid(row=rowCount, column=0)
 
 room1Temp = tk.Entry(root)
-room1Temp.grid(row=1, column=1)
+room1Temp.grid(row=rowCount, column=1)
+
+rowCount += 1
 
 room2Label = tk.Label(root, text="Room 2 Temp")
-room2Label.grid(row=2, column=0)
+room2Label.grid(row=rowCount, column=0)
 
 room2Temp = tk.Entry(root)
-room2Temp.grid(row=2, column=1)
+room2Temp.grid(row=rowCount, column=1)
+
+rowCount += 1
+
+room3Label = tk.Label(root, text="Room 2 Temp")
+room3Label.grid(row=rowCount, column=0)
+
+room3Temp = tk.Entry(root)
+room3Temp.grid(row=rowCount, column=1)
+
+rowCount += 1
+
+room4Label = tk.Label(root, text="Room 2 Temp")
+room4Label.grid(row=rowCount, column=0)
+
+room4Temp = tk.Entry(root)
+room4Temp.grid(row=rowCount, column=1)
+
+rowCount += 1
 
 heatVar = tk.IntVar()
 heatCheck = tk.Checkbutton(root, text="Heater", variable=heatVar)
-heatCheck.grid(row=3, column=0)
+heatCheck.grid(row=rowCount, column=0)
 
 acVar = tk.IntVar()
 acCheck = tk.Checkbutton(root, text="AC", variable=acVar)
-acCheck.grid(row=3, column=1)
+acCheck.grid(row=rowCount, column=1)
+
+rowCount += 1
 
 roomSelLabel = tk.Label(root, text="Room Selection")
-roomSelLabel.grid(row=4, column=0)
+roomSelLabel.grid(row=rowCount, column=0)
 
 roomSelect = tk.Entry(root)
-roomSelect.grid(row=4, column=1)
+roomSelect.grid(row=rowCount, column=1)
+
+rowCount += 1
 
 desiredTempLabel = tk.Label(root, text="Desired Temp")
-desiredTempLabel.grid(row=5, column=0)
+desiredTempLabel.grid(row=rowCount, column=0)
 
 desiredTemp = tk.Entry(root)
-desiredTemp.grid(row=5, column=1)
+desiredTemp.grid(row=rowCount, column=1)
+
+rowCount += 1
 
 button = tk.Button(root, text="Run Simulation", command=runSim)
-button.grid(row=6, column=0)
+button.grid(row=rowCount, column=0)
 
 root.mainloop()
