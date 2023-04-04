@@ -9,7 +9,7 @@ import tkinter as tk
 def runSim():
     # print(f"{heatVar.get()}\n{acVar.get()}")
     acCheck = acVar.get()
-    heatState = heatVar.get()
+    heatCheck = heatVar.get()
     room = int(roomSelect.get())
     r1w = False
     r2w = False
@@ -19,44 +19,79 @@ def runSim():
     r23w = False
     r34w = False
     r41w = False
-    acState = False
+    r12Fan = False
+    r23Fan = False
+    r34Fan = False
+    r41Fan = False
+    r1Heat = False
+    r2Heat = False
+    r3Heat = False
+    r4Heat = False
+    r1Ac = False
+    r2Ac = False
+    r3Ac = False
+    r4Ac = False
+    r1OutW = False
+    r2OutW = False
+    r3OutW = False
+    r4OutW = False
+    heatState = False
 
-    # Make sure AC is on
-    if acCheck:
-        # The user wants to cool room 1
-        if room == 1:
-            if room1Temp.get() > desiredTemp.get():
-                acState = True
-        elif room == 2:
-            if room2Temp.get() > desiredTemp.get():
-                acState = True
-        elif room == 3:
-            if room3Temp.get() > desiredTemp.get():
-                acState = True
-        elif room == 4:
-            if room4Temp.get() > desiredTemp.get():
-                acState = True
-        else:
-            print("Error: Invalid room number!")
-    else:
-        # No AC
-        if room == 1:
-            # TODO: Open windows and turn on fans
-            pass
-        elif room == 2:
-            pass
-        elif room == 3:
-            pass
-        elif room == 4:
-            pass
-        else:
-            print("Error: Invalid room number!")
 
-    if heatState:
-        pass
+    if room == 1:
+        # Get room 1 warmer
+        if room1Temp.get() < desiredTemp:
+            # Heater
+            if heatCheck and room1Temp.get() < desiredTemp:
+                r1Heat = True
+            # Interior Window
+            if room2Temp.get() > room1Temp.get() and room1Temp.get() < desiredTemp: # Work on thinking about when the heater should be on or the AC
+                r12w = True
+                r12Fan = False
+            # Interior Window
+            if room4Temp.get() > room1Temp.get():
+                r41w = True
+                r41Fan = True
+            # AC
+            if acCheck and room1Temp.get() > desiredTemp:
+                r1Ac = True
+            # Outside Windows Cooling
+            if outsideTemp.get() < room1Temp.get() and room1Temp.get() > desiredTemp:
+                r1OutW = True
+            # Outside Windows Heating
+            if outsideTemp.get() > room1Temp.get() and room1Temp.get() < desiredTemp:
+                r1OutW = True
+
+    if room == 2:
+        # Get room 2 warmer
+        if room2Temp.get() < desiredTemp:
+            # Heater
+            if heatCheck and room2Temp.get() < desiredTemp:
+                r2Heat = True
+            # Interior Window
+            if room2Temp.get() > room3Temp.get() and room2:
+                r12w = True
+                r12Fan = False
+            # Interior Window
+            if room4Temp.get() > room1Temp.get():
+                r41w = True
+                r41Fan = True
+            # AC
+            if acCheck and room2Temp.get() > desiredTemp:
+                r1Ac = True
+            # Outside Windows Cooling
+            if outsideTemp.get() < room2Temp.get() and room2Temp.get() > desiredTemp:
+                r1OutW = True
+            # Outside Windows Heating
+            if outsideTemp.get() > room2Temp.get() and room2Temp.get() < desiredTemp:
+                r1OutW = True
+
 
     print(f"AC State: {acState}")
-    print(f"Heat State: {heatState}")
+    print(f"Room 1 Heat State: {r1Heat}")
+    print(f"Room 2 Heat State: {r2Heat}")
+    print(f"Room 3 Heat State: {r3Heat}")
+    print(f"Room 4 Heat State: {r4Heat}")
     print(f"Room 1 Window: {r1w}")
     print(f"Room 2 Window: {r2w}")
     print(f"Room 3 Window: {r3w}")
@@ -96,7 +131,7 @@ room2Temp.grid(row=rowCount, column=1)
 
 rowCount += 1
 
-room3Label = tk.Label(root, text="Room 2 Temp")
+room3Label = tk.Label(root, text="Room 3 Temp")
 room3Label.grid(row=rowCount, column=0)
 
 room3Temp = tk.Entry(root)
@@ -104,7 +139,7 @@ room3Temp.grid(row=rowCount, column=1)
 
 rowCount += 1
 
-room4Label = tk.Label(root, text="Room 2 Temp")
+room4Label = tk.Label(root, text="Room 4 Temp")
 room4Label.grid(row=rowCount, column=0)
 
 room4Temp = tk.Entry(root)
