@@ -39,14 +39,13 @@ def runSim():
     r4Ac = False
 
     if room == 1:
-        # Get room 1 warmer
         # Heater
         if heatCheck and Room1Temp < DesiredTemp:
             r1Heat = True
         # Interior Window Forward
         if (Room2Temp > Room1Temp and Room1Temp < DesiredTemp) or (
             Room2Temp < Room1Temp and Room1Temp > DesiredTemp
-        ):  # Work on thinking about when the heater should be on or the AC
+        ):
             r12w = True
             r12Fan = False
         # Interior Window Backward
@@ -66,14 +65,13 @@ def runSim():
             r1w = True
 
     elif room == 2:
-        # Get room 1 warmer
         # Heater
         if heatCheck and Room2Temp < DesiredTemp:
             r2Heat = True
         # Interior Window Froward
         if (Room3Temp > Room2Temp and Room2Temp < DesiredTemp) or (
             Room3Temp < Room2Temp and Room2Temp > DesiredTemp
-        ):  # Work on thinking about when the heater should be on or the AC
+        ):
             r23w = True
             r23Fan = False
         # Interior Window Backward
@@ -93,14 +91,13 @@ def runSim():
             r2w = True
 
     elif room == 3:
-        # Get room 1 warmer
         # Heater
         if heatCheck and Room3Temp < DesiredTemp:
             r3Heat = True
         # Interior Window Forward
         if (Room4Temp > Room3Temp and Room3Temp < DesiredTemp) or (
             Room4Temp < Room3Temp and Room3Temp > DesiredTemp
-        ):  # Work on thinking about when the heater should be on or the AC
+        ):
             r34w = True
             r34Fan = False
         # Interior Window Backward
@@ -120,14 +117,13 @@ def runSim():
             r3w = True
 
     elif room == 4:
-        # Get room 1 warmer
         # Heater
         if heatCheck and Room4Temp < DesiredTemp:
             r4Heat = True
         # Interior Window Forward
         if (Room1Temp > Room4Temp and Room4Temp < DesiredTemp) or (
             Room1Temp < Room4Temp and Room4Temp > DesiredTemp
-        ):  # Work on thinking about when the heater should be on or the AC
+        ):
             r41w = True
             r41Fan = False
         # Interior Window Backward
