@@ -8,7 +8,6 @@ import serial
 # Desired temp for Room 1
 # TODO this needs to be updated to include the website. These numbers will be coming from there now
 desiredTemp = float(sys.argv[1])
-outsideTemp = float(sys.argv[2])
 
 # Define the serial port and baud rate for the arduino
 ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
@@ -137,11 +136,11 @@ while not stop_loop:
     # TODO acCheck = int(acVar.get())
     # TODO heatCheck = int(heatVar.get())
     # TODO room = int(roomSelect.get())
+    # TODO DesiredTemp = int(desiredTemp.get())
     Room1Temp = 999
     Room2Temp = 999
     Room3Temp = 999
     Room4Temp = 999
-    # TODO DesiredTemp = int(desiredTemp.get())
     OutsideTemp = 999
     # Exterior windows
     r1w = False
