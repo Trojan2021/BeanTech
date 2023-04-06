@@ -11,6 +11,12 @@ def runSim():
     acCheck = int(acVar.get())
     heatCheck = int(heatVar.get())
     room = int(roomSelect.get())
+    Room1Temp = int(room1Temp.get())
+    Room2Temp = int(room2Temp.get())
+    Room3Temp = int(room3Temp.get())
+    Room4Temp = int(room4Temp.get())
+    DesiredTemp = int(desiredTemp.get())
+    OutsideTemp = int(outsideTemp.get())
     r1w = False
     r2w = False
     r3w = False
@@ -35,157 +41,109 @@ def runSim():
     if room == 1:
         # Get room 1 warmer
         # Heater
-        if heatCheck and int(room1Temp.get()) < int(desiredTemp.get()):
+        if heatCheck and Room1Temp < DesiredTemp:
             r1Heat = True
         # Interior Window Forward
-        if (
-            int(room2Temp.get()) > int(room1Temp.get())
-            and int(room1Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room2Temp.get()) < int(room1Temp.get())
-            and int(room1Temp.get()) > int(desiredTemp.get())
+        if (Room2Temp > Room1Temp and Room1Temp < DesiredTemp) or (
+            Room2Temp < Room1Temp and Room1Temp > DesiredTemp
         ):  # Work on thinking about when the heater should be on or the AC
             r12w = True
             r12Fan = False
         # Interior Window Backward
-        if (
-            int(room4Temp.get()) > int(room1Temp.get())
-            and int(room1Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room4Temp.get()) < int(room1Temp.get())
-            and int(room1Temp.get()) > int(desiredTemp.get())
+        if (Room4Temp > Room1Temp and Room1Temp < DesiredTemp) or (
+            Room4Temp < Room1Temp and Room1Temp > DesiredTemp
         ):
             r41w = True
             r41Fan = True
         # AC
-        if acCheck and int(room1Temp.get()) > int(desiredTemp.get()):
+        if acCheck and Room1Temp > DesiredTemp:
             r1Ac = True
         # Outside Windows Cooling
-        if int(outsideTemp.get()) < int(room1Temp.get()) and int(room1Temp.get()) > int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp < Room1Temp and Room1Temp > DesiredTemp:
             r1w = True
         # Outside Windows Heating
-        if int(outsideTemp.get()) > int(room1Temp.get()) and int(room1Temp.get()) < int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp > Room1Temp and Room1Temp < DesiredTemp:
             r1w = True
 
     elif room == 2:
         # Get room 1 warmer
         # Heater
-        if heatCheck and int(room2Temp.get()) < int(desiredTemp.get()):
+        if heatCheck and Room2Temp < DesiredTemp:
             r2Heat = True
         # Interior Window Froward
-        if (
-            int(room3Temp.get()) > int(room2Temp.get())
-            and int(room2Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room3Temp.get()) < int(room2Temp.get())
-            and int(room2Temp.get()) > int(desiredTemp.get())
+        if (Room3Temp > Room2Temp and Room2Temp < DesiredTemp) or (
+            Room3Temp < Room2Temp and Room2Temp > DesiredTemp
         ):  # Work on thinking about when the heater should be on or the AC
             r23w = True
             r23Fan = False
         # Interior Window Backward
-        if (
-            int(room1Temp.get()) > int(room2Temp.get())
-            and int(room2Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room1Temp.get()) < int(room2Temp.get())
-            and int(room2Temp.get()) > int(desiredTemp.get())
+        if (Room1Temp > Room2Temp and Room2Temp < DesiredTemp) or (
+            Room1Temp < Room2Temp and Room2Temp > DesiredTemp
         ):
             r12w = True
             r12Fan = True
         # AC
-        if acCheck and int(room2Temp.get()) > int(desiredTemp.get()):
+        if acCheck and Room2Temp > DesiredTemp:
             r2Ac = True
         # Outside Windows Cooling
-        if int(outsideTemp.get()) < int(room2Temp.get()) and int(room2Temp.get()) > int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp < Room2Temp and Room2Temp > DesiredTemp:
             r2w = True
         # Outside Windows Heating
-        if int(outsideTemp.get()) > int(room2Temp.get()) and int(room2Temp.get()) < int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp > Room2Temp and Room2Temp < DesiredTemp:
             r2w = True
 
     elif room == 3:
         # Get room 1 warmer
         # Heater
-        if heatCheck and int(room3Temp.get()) < int(desiredTemp.get()):
+        if heatCheck and Room3Temp < DesiredTemp:
             r3Heat = True
         # Interior Window Forward
-        if (
-            int(room4Temp.get()) > int(room3Temp.get())
-            and int(room3Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room4Temp.get()) < int(room3Temp.get())
-            and int(room3Temp.get()) > int(desiredTemp.get())
+        if (Room4Temp > Room3Temp and Room3Temp < DesiredTemp) or (
+            Room4Temp < Room3Temp and Room3Temp > DesiredTemp
         ):  # Work on thinking about when the heater should be on or the AC
             r34w = True
             r34Fan = False
         # Interior Window Backward
-        if (
-            int(room2Temp.get()) > int(room3Temp.get())
-            and int(room3Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room2Temp.get()) < int(room3Temp.get())
-            and int(room3Temp.get()) > int(desiredTemp.get())
+        if (Room2Temp > Room3Temp and Room3Temp < DesiredTemp) or (
+            Room2Temp < Room3Temp and Room3Temp > DesiredTemp
         ):
             r23w = True
             r23Fan = True
         # AC
-        if acCheck and int(room3Temp.get()) > int(desiredTemp.get()):
+        if acCheck and Room3Temp > DesiredTemp:
             r3Ac = True
         # Outside Windows Cooling
-        if int(outsideTemp.get()) < int(room3Temp.get()) and int(room3Temp.get()) > int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp < Room3Temp and Room3Temp > DesiredTemp:
             r3w = True
         # Outside Windows Heating
-        if int(outsideTemp.get()) > int(room3Temp.get()) and int(room3Temp.get()) < int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp > Room3Temp and Room3Temp < DesiredTemp:
             r3w = True
 
     elif room == 4:
         # Get room 1 warmer
         # Heater
-        if heatCheck and int(room4Temp.get()) < int(desiredTemp.get()):
+        if heatCheck and Room4Temp < DesiredTemp:
             r4Heat = True
         # Interior Window Forward
-        if (
-            int(room1Temp.get()) > int(room4Temp.get())
-            and int(room4Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room1Temp.get()) < int(room4Temp.get())
-            and int(room4Temp.get()) > int(desiredTemp.get())
+        if (Room1Temp > Room4Temp and Room4Temp < DesiredTemp) or (
+            Room1Temp < Room4Temp and Room4Temp > DesiredTemp
         ):  # Work on thinking about when the heater should be on or the AC
             r41w = True
             r41Fan = False
         # Interior Window Backward
-        if (
-            int(room3Temp.get()) > int(room4Temp.get())
-            and int(room4Temp.get()) < int(desiredTemp.get())
-        ) or (
-            int(room3Temp.get()) < int(room4Temp.get())
-            and int(room4Temp.get()) > int(desiredTemp.get())
+        if (Room3Temp > Room4Temp and Room4Temp < DesiredTemp) or (
+            Room3Temp < Room4Temp and Room4Temp > DesiredTemp
         ):
             r34w = True
             r34Fan = True
         # AC
-        if acCheck and int(room4Temp.get()) > int(desiredTemp.get()):
+        if acCheck and Room4Temp > DesiredTemp:
             r4Ac = True
         # Outside Windows Cooling
-        if int(outsideTemp.get()) < int(room4Temp.get()) and int(room4Temp.get()) > int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp < Room4Temp and Room4Temp > DesiredTemp:
             r4w = True
         # Outside Windows Heating
-        if int(outsideTemp.get()) > int(room4Temp.get()) and int(room4Temp.get()) < int(
-            desiredTemp.get()
-        ):
+        if OutsideTemp > Room4Temp and Room4Temp < DesiredTemp:
             r4w = True
 
     print(f"\n\n\nRoom 1 Window: {r1w}")
