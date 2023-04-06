@@ -6,46 +6,52 @@ import RPi.GPIO as GPIO
 import serial
 
 # Desired temp for Room 1
+# TODO this needs to be updated to include the website. These numbers will be coming from there now
 desiredTemp = float(sys.argv[1])
 outsideTemp = float(sys.argv[2])
-case = int(sys.argv[3])
 
-# Define the serial port and baud rate.
+# Define the serial port and baud rate for the arduino
 ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
 
 # Setup proper board type
 GPIO.setmode(GPIO.BCM)
 
 
-# ON OFF CONTROLS
-# Air conditioning, heaters, and middle fan power
-
 # Set the GPIO pin values
-r1ac = 22
-r1h1 = 23
-r1h2 = 25
-r2ac = 6
-r2h1 = 5
-r2h2 = 12
-mfp = 17
+# TODO
+r1AcPin = 22
+r2AcPin = 0
+r3AcPin = 0
+r4AcPin = 0
+r1HeatPin = 23
+r2HeatPin = 0
+r3HeatPin = 0
+r4HeatPin = 0
 
 # GPIO setup
-GPIO.setup(r1ac, GPIO.OUT)
-GPIO.setup(r1h1, GPIO.OUT)
-GPIO.setup(r1h2, GPIO.OUT)
-GPIO.setup(r2ac, GPIO.OUT)
-GPIO.setup(r2h1, GPIO.OUT)
-GPIO.setup(r2h2, GPIO.OUT)
-GPIO.setup(mfp, GPIO.OUT)
+GPIO.setup(r1AcPin, GPIO.OUT)
+GPIO.setup(r2AcPin, GPIO.OUT)
+GPIO.setup(r3AcPin, GPIO.OUT)
+GPIO.setup(r4AcPin, GPIO.OUT)
+GPIO.setup(r1HeatPin, GPIO.OUT)
+GPIO.setup(r2HeatPin, GPIO.OUT)
+GPIO.setup(r3HeatPin, GPIO.OUT)
+GPIO.setup(r4HeatPin, GPIO.OUT)
 
 
 # SERVO CONTROL
 # Windows and middle flap
 
 # Set the GPIO pin values
-r1w = 27
-r2w = 21
-mfs = 18
+# TODO
+r1wPin = 27
+r2wPin = 21
+r3wPin = 0
+r4wPin = 0
+r12wPin = 0
+r23wPin = 0
+r34wPin = 0
+r41wPin = 0
 
 # Set the PWM frequency to 50 Hz
 pwm_frequency = 50
@@ -55,17 +61,33 @@ duty_cycle_min = 2
 duty_cycle_max = 12
 
 # Setup the GPIO pin as a PWM output
-GPIO.setup(r1w, GPIO.OUT)
-GPIO.setup(r2w, GPIO.OUT)
-GPIO.setup(mfs, GPIO.OUT)
-r1wpwm = GPIO.PWM(r1w, pwm_frequency)
-r2wpwm = GPIO.PWM(r2w, pwm_frequency)
-mfspwm = GPIO.PWM(mfs, pwm_frequency)
+GPIO.setup(r1wPin, GPIO.OUT)
+GPIO.setup(r2wPin, GPIO.OUT)
+GPIO.setup(r3wPin, GPIO.OUT)
+GPIO.setup(r4wPin, GPIO.OUT)
+GPIO.setup(r12wPin, GPIO.OUT)
+GPIO.setup(r23wPin, GPIO.OUT)
+GPIO.setup(r34wPin, GPIO.OUT)
+GPIO.setup(r41wPin, GPIO.OUT)
+r1wpwm = GPIO.PWM(r1wPin, pwm_frequency)
+r2wpwm = GPIO.PWM(r2wPin, pwm_frequency)
+r3wpwm = GPIO.PWM(r3wPin, pwm_frequency)
+r4wpwm = GPIO.PWM(r4wPin, pwm_frequency)
+r12wpwm = GPIO.PWM(r12wPin, pwm_frequency)
+r23wpwm = GPIO.PWM(r23wPin, pwm_frequency)
+r34wpwm = GPIO.PWM(r34wPin, pwm_frequency)
+r41wpwm = GPIO.PWM(r41wPin, pwm_frequency)
 
 # Start the PWM output with a 0% duty cycle
 r1wpwm.start(0)
 r2wpwm.start(0)
-mfspwm.start(0)
+r3wpwm.start(0)
+r4wpwm.start(0)
+r12wpwm.start(0)
+r23wpwm.start(0)
+r34wpwm.start(0)
+r41wpwm.start(0)
+
 
 # Function to set the servo position
 def set_servo_position(pwm, angle):
@@ -76,353 +98,267 @@ def set_servo_position(pwm, angle):
 
 # Variables
 # For state variables, True is open/on
-r1wState = False
-r1acState = False
-r1hState = False
-r2wState = False
-r2acState = False
-r2hState = False
-mfpState = False
-mfsState = False
+r1w = False
+r2w = False
+r3w = False
+r4w = False
+# Interior windows connecting rooms
+r12w = False
+r23w = False
+r34w = False
+r41w = False
+# Interior fans (True is counter-clockwise, False is clockwise)
+r12Fan = False
+r23Fan = False
+r34Fan = False
+r41Fan = False
+# Room heaters
+r1Heat = False
+r2Heat = False
+r3Heat = False
+r4Heat = False
+# Room air conditioning
+r1Ac = False
+r2Ac = False
+r3Ac = False
+r4Ac = False
 
 
 stop_loop = False
 
+# This is here to grab and dump the first set of date
+# In testing, sometimes this data was causing errors
 try:
     data = ser.readline().decode("utf-8").rstrip()
 except UnicodeDecodeError as e:
     pass
 
 while not stop_loop:
-
-    r1wState = False
-    r1acState = False
-    r1hState = False
-    r2wState = False
-    r2acState = False
-    r2hState = False
-    mfpState = False
-    mfsState = False
+    # TODO acCheck = int(acVar.get())
+    # TODO heatCheck = int(heatVar.get())
+    # TODO room = int(roomSelect.get())
+    Room1Temp = 999
+    Room2Temp = 999
+    Room3Temp = 999
+    Room4Temp = 999
+    # TODO DesiredTemp = int(desiredTemp.get())
+    OutsideTemp = 999
+    # Exterior windows
+    r1w = False
+    r2w = False
+    r3w = False
+    r4w = False
+    # Interior windows connecting rooms
+    r12w = False
+    r23w = False
+    r34w = False
+    r41w = False
+    # Interior fans (True is counter-clockwise, False is clockwise)
+    r12Fan = False
+    r23Fan = False
+    r34Fan = False
+    r41Fan = False
+    # Room heaters
+    r1Heat = False
+    r2Heat = False
+    r3Heat = False
+    r4Heat = False
+    # Room air conditioning
+    r1Ac = False
+    r2Ac = False
+    r3Ac = False
+    r4Ac = False
 
     try:
         data = ser.readline().decode("utf-8").rstrip()
         values = data.split(",")
-        Room1temp = float(values[0])
-        Room2temp = float(values[1])
-        Room1Light = float(values[2])
-        Room2Light = float(values[3])
-        Rotary = float(values[4])
+        # Arduino Order: Room1Temp, Room2Temp, Room3Temp, Room4Temp
+        Room1Temp = float(values[0])
+        Room2Temp = float(values[1])
+        Room3Temp = float(values[2])
+        Room4Temp = float(values[3])
+        OutsideTemp = float(values[4])
 
     except UnicodeDecodeError as e:
         pass
 
-    # Goal: Get Room 1 Cold
-    # if Room 1 Warm:
-    # if desiredTemp < Room1temp:
-    if case == 1:
-        #     Turn on AC
-        r1acState = True
-        #     Check Room 2
-        #     Check Outside
-        #     if Room 2 Warm && Outside Warm:
-        #     if Room2temp > desiredTemp and outsideTemp > desiredTemp:
-        # #         if Room 1 Window Open:
-        #         if r1wState:
-        # #             Close
-        #             r1wState = False
-        # #         if Middle Fan Open:
-        #         if mfpState:
-        # #             Close
-        #             mfpState = False
-        #             mfsState = False
-        #     else if Room 2 Cold && Outside Warm:
-        if Room2temp <= desiredTemp and outsideTemp > desiredTemp:
-            #         if Room 1 Window Open:
-            #         if r1wState:
-            # #             Close
-            #             r1wState = False
-            # #         if Middle Fan Close:
-            # if not mfpState:
-            #             Open
-            mfsState = True
-            mfpState = True
-        #     else if Outside Cold:
-        elif outsideTemp < desiredTemp:
-            #         if Room 1 Window Close:
-            # if not r1wState:
-            #             Open
-            r1wState = True
-    #         if Middle Fan Open:
-    #         if mfpState:
-    # #             Close
-    #             mfpState = False
-    #             mfsState = False
-    # else:
-    # else:
-    # #     if Middle Fan Open:
-    #     if mfpState:
-    # #         Close
-    #         mfpState = False
-    #         mfsState = False
-    # #     if Room 1 Window Open:
-    #     if r1wState:
-    # #         Close
-    #         r1wState = False
-
-    # Goal: Get Room 2 Cold
-    # if Room2temp > desiredTemp:
-    if case == 2:
-        # Turn on AC
-        r2acState = True
-        # Check Room 1
-        # Check Outside
-        # if Room1temp > desiredTemp and outsideTemp > desiredTemp:
-        #     # if Room 2 Window Open:
-        #     if r2wState:
-        #         # Close
-        #         r2wState = False
-        #     # if Middle Fan Open:
-        #     if mfpState:
-        #         # Close
-        #         mfpState = False
-        #         mfsState = False
-        # else if Room 1 Cold && Outside Warm:
-        if Room1temp <= desiredTemp and outsideTemp > desiredTemp:
-            # if Room 2 Window Open:
-            # if r2wState:
-            #     # Close
-            #     r2wState = False
-            # if Middle Fan Close:
-            # if not mfpState:
-            #     # Open
-            mfsState = True
-            mfpState = True
-        # else if Outside Cold:
-        # elif outsideTemp < desiredTemp:
-        #     # if Room 2 Window Close:
-        #     if r2wState:
-        #         # Open
-        #         r2wState = False
-        #     # if Middle Fan Open:
-        #     if mfpState:
-        #         # Close
-        #         mfpState = False
-        #         mfsState = False
-    # else:
-    # else:
-    #     # if Middle Fan Open:
-    #     if mfpState:
-    #         # Close
-    #         mfpState = False
-    #         mfsState = False
-    #     # if Room 2 Window Open:
-    #     if r2wState:
-    #         # Close
-    #         r2wState = False
-
-    # Goal: Get Room 1 Warm
-    # elif Room1temp < desiredTemp:
-    if case == 3:
-        # Check Room 2
-        # Check Outside
-        # Turn on heaters in room 1
-        r1hState = True
-
-        # If Sunlight and Room 1 Slightly Cold and Outside Warm
-        if (
-            Room1Light > 600
-            and (Room1temp < desiredTemp - 2 and Room1temp > desiredTemp - 5)
-            and outsideTemp > desiredTemp
+    if room == 1:
+        # Heater
+        if heatCheck and Room1Temp < DesiredTemp:
+            r1Heat = True
+        # Interior Window Forward
+        if (Room2Temp > Room1Temp and Room1Temp < DesiredTemp) or (
+            Room2Temp < Room1Temp and Room1Temp > DesiredTemp
         ):
-            # If Room 1 Window Close
-            # if not r1wState:
-            #     # Open
-            r1wState = True
-            # If Middle Fan Open
-            # if mfpState:
-            #     # Close
-            #     mfpState = False
-            #     mfsState = False
-        else:
-            # If Room 2 Cold and Outside Cold
-            # if Room2temp <= desiredTemp and outsideTemp <= desiredTemp:
-            #     # If Room 1 Window Open
-            #     if r1wState:
-            #         # Close
-            #         r1wState = False
-            #     # If Middle Fan Open
-            #     if mfpState:
-            #         # Close
-            #         mfpState = False
-            #         mfsState = False
-            # Else if Room 2 Warm and Outside Cold
-            if Room2temp > desiredTemp and outsideTemp <= desiredTemp:
-                # # If Room 1 Window Open
-                # if r1wState:
-                #     # Close
-                #     r1wState = False
-                # # If Middle Fan Close
-                # if not mfpState:
-                #     # Open
-                mfsState = True
-                mfpState = True
-            # Else if Outside Warm
-            elif outsideTemp > desiredTemp:
-                # If Room 1 Window Close
-                # if not r1wState:
-                # Open
-                r1wState = True
-                # If Middle Fan Open
-                # if mfpState:
-                #     # Close
-                #     mfpState = False
-                #     mfsState = False
-    # else:
-    #     # If Middle Fan Open
-    #     if mfpState:
-    #         # Close
-    #         mfpState = False
-    #         mfsState = False
-    #     # If Room 1 Window Open
-    #     if r1wState:
-    #         # Close
-    #         r1wState = False
-
-    # Goal: Get Room 2 Warm
-
-    # If Room 2 is Cold:
-    # elif Room2temp < desiredTemp:
-    if case == 4:
-
-        # Check Room 1 and Outside temperature
-        # Check Room 1
-        # Check Outside
-        r2hState = True
-
-        # If Sunlight is present and Room 2 is slightly cold and Outside is Warm
-        if (
-            Room2Light > 600
-            and (Room2temp < desiredTemp - 2 and Room2temp > desiredTemp - 5)
-            and outsideTemp > desiredTemp
+            r12w = True
+            r12Fan = False
+        # Interior Window Backward
+        if (Room4Temp > Room1Temp and Room1Temp < DesiredTemp) or (
+            Room4Temp < Room1Temp and Room1Temp > DesiredTemp
         ):
+            r41w = True
+            r41Fan = True
+        # AC
+        if acCheck and Room1Temp > DesiredTemp:
+            r1Ac = True
+        # Outside Windows Cooling
+        if OutsideTemp < Room1Temp and Room1Temp > DesiredTemp:
+            r1w = True
+        # Outside Windows Heating
+        if OutsideTemp > Room1Temp and Room1Temp < DesiredTemp:
+            r1w = True
 
-            # # If Room 2 window is open, close it
-            # if r2wState:
-            r2wState = True
+    elif room == 2:
+        # Heater
+        if heatCheck and Room2Temp < DesiredTemp:
+            r2Heat = True
+        # Interior Window Froward
+        if (Room3Temp > Room2Temp and Room2Temp < DesiredTemp) or (
+            Room3Temp < Room2Temp and Room2Temp > DesiredTemp
+        ):
+            r23w = True
+            r23Fan = False
+        # Interior Window Backward
+        if (Room1Temp > Room2Temp and Room2Temp < DesiredTemp) or (
+            Room1Temp < Room2Temp and Room2Temp > DesiredTemp
+        ):
+            r12w = True
+            r12Fan = True
+        # AC
+        if acCheck and Room2Temp > DesiredTemp:
+            r2Ac = True
+        # Outside Windows Cooling
+        if OutsideTemp < Room2Temp and Room2Temp > DesiredTemp:
+            r2w = True
+        # Outside Windows Heating
+        if OutsideTemp > Room2Temp and Room2Temp < DesiredTemp:
+            r2w = True
 
-            # # If Middle fan is open, close it
-            # if mfpState:
-            #     mfpState = False
-            #     mfsState = False
+    elif room == 3:
+        # Heater
+        if heatCheck and Room3Temp < DesiredTemp:
+            r3Heat = True
+        # Interior Window Forward
+        if (Room4Temp > Room3Temp and Room3Temp < DesiredTemp) or (
+            Room4Temp < Room3Temp and Room3Temp > DesiredTemp
+        ):
+            r34w = True
+            r34Fan = False
+        # Interior Window Backward
+        if (Room2Temp > Room3Temp and Room3Temp < DesiredTemp) or (
+            Room2Temp < Room3Temp and Room3Temp > DesiredTemp
+        ):
+            r23w = True
+            r23Fan = True
+        # AC
+        if acCheck and Room3Temp > DesiredTemp:
+            r3Ac = True
+        # Outside Windows Cooling
+        if OutsideTemp < Room3Temp and Room3Temp > DesiredTemp:
+            r3w = True
+        # Outside Windows Heating
+        if OutsideTemp > Room3Temp and Room3Temp < DesiredTemp:
+            r3w = True
 
-        else:
+    elif room == 4:
+        # Heater
+        if heatCheck and Room4Temp < DesiredTemp:
+            r4Heat = True
+        # Interior Window Forward
+        if (Room1Temp > Room4Temp and Room4Temp < DesiredTemp) or (
+            Room1Temp < Room4Temp and Room4Temp > DesiredTemp
+        ):
+            r41w = True
+            r41Fan = False
+        # Interior Window Backward
+        if (Room3Temp > Room4Temp and Room4Temp < DesiredTemp) or (
+            Room3Temp < Room4Temp and Room4Temp > DesiredTemp
+        ):
+            r34w = True
+            r34Fan = True
+        # AC
+        if acCheck and Room4Temp > DesiredTemp:
+            r4Ac = True
+        # Outside Windows Cooling
+        if OutsideTemp < Room4Temp and Room4Temp > DesiredTemp:
+            r4w = True
+        # Outside Windows Heating
+        if OutsideTemp > Room4Temp and Room4Temp < DesiredTemp:
+            r4w = True
 
-            # # If Room 1 is Cold and Outside is Cold
-            # if Room1temp < desiredTemp and outsideTemp < desiredTemp:
-
-            #     # If Room 2 window is open, close it
-            #     if r2wState:
-            #         r2wState = False
-
-            #     # If Middle fan is open, close it
-            #     if mfpState:
-            #         mfpState = False
-            #         mfsState = False
-
-            #     # Turn on Heaters in Room 2
-            #     r2hState = True
-
-            # If Room 1 is Warm and Outside is Cold
-            if Room1temp >= desiredTemp and outsideTemp < desiredTemp:
-
-                # # If Room 2 window is open, close it
-                # if r2wState:
-                #     r2wState = False
-
-                # If Middle fan is closed, open it
-                # if not mfpState:
-                mfpState = True
-                mfsState = True
-
-            # If Outside is Warm
-            elif outsideTemp >= desiredTemp:
-
-                # If Room 2 window is closed, open it
-                # if not r2wState:
-                r2wState = True
-
-                # # If Middle fan is open, close it
-                # if mfpState:
-                #     mfpState = False
-                #     mfsState = False
-
-        # If Room 2 is not Cold anymore, turn off Heaters in Room 2
-        # r2hState = False
-
-    if case == 7:
-        # Cool down house at night by creating draft
-        r1wState = True
-        r2wState = True
-        mfsState = True
-        mfpState = True
-
-    if case == 8:
-        # Open the windows for a nice morning
-        r1wState = True
-        r2wState = True
-
-    if case == 9:
-        # Warm room 2, outside is cold and room 1 is warmer than room 2
-        mfsState = True
-        mfpState = True
-
-    if case == 10:
-        mfpState = True
-        r2wState = True
-
-    # Check for a key event to stop the loop
-    if keyboard.is_pressed("q"):
-        stop_loop = True
-
-    # Servos
-    if r1wState:
+    # Servos for exterior windows
+    if r1w:
         set_servo_position(r1wpwm, 180)
     else:
         set_servo_position(r1wpwm, 0)
-    if r2wState:
+    if r2w:
         set_servo_position(r2wpwm, 180)
     else:
         set_servo_position(r2wpwm, 0)
-    if mfsState:
-        set_servo_position(mfspwm, 0)
+    if r3w:
+        set_servo_position(r3wpwm, 180)
     else:
-        set_servo_position(mfspwm, 180)
+        set_servo_position(r3wpwm, 0)
+    if r4w:
+        set_servo_position(r4wpwm, 180)
+    else:
+        set_servo_position(r4wpwm, 0)
 
-    # ON/OFF
-    if r1acState:
-        GPIO.output(r1ac, 1)
+    # Servos for interior windows
+    if r12w:
+        set_servo_position(r12wpwm, 180)
+        # TODO Turn on fan and control direction
     else:
-        GPIO.output(r1ac, 0)
-    if mfpState:
-        GPIO.output(mfp, 1)
+        set_servo_position(r12wpwm, 0)
+        # TODO turn off fan
+    if r23w:
+        set_servo_position(r23wpwm, 180)
     else:
-        GPIO.output(mfp, 0)
-    if r1hState:
-        GPIO.output(r1h1, 1)
-        GPIO.output(r1h2, 1)
+        set_servo_position(r23wpwm, 0)
+    if r34w:
+        set_servo_position(r34wpwm, 180)
     else:
-        GPIO.output(r1h1, 0)
-        GPIO.output(r1h2, 0)
-    if r2hState:
-        GPIO.output(r2h1, 1)
-        GPIO.output(r2h2, 1)
+        set_servo_position(r34wpwm, 0)
+    if r41w:
+        set_servo_position(r41wpwm, 180)
     else:
-        GPIO.output(r2h1, 0)
-        GPIO.output(r2h2, 0)
-    if r2acState:
-        GPIO.output(r2ac, 1)
+        set_servo_position(r41wpwm, 0)
+
+    # Air Conditioning
+    if r1Ac:
+        GPIO.output(r1AcPin, 1)
     else:
-        GPIO.output(r2ac, 0)
+        GPIO.output(r1AcPin, 0)
+    if r2Ac:
+        GPIO.output(r2AcPin, 1)
+    else:
+        GPIO.output(r2AcPin, 0)
+    if r3Ac:
+        GPIO.output(r3AcPin, 1)
+    else:
+        GPIO.output(r3AcPin, 0)
+    if r4Ac:
+        GPIO.output(r4AcPin, 1)
+    else:
+        GPIO.output(r4AcPin, 0)
+
+    # Heating
+    if r1Heat:
+        GPIO.output(r1HeatPin, 1)
+    else:
+        GPIO.output(r1HeatPin, 0)
+    if r2Heat:
+        GPIO.output(r2HeatPin, 1)
+    else:
+        GPIO.output(r2HeatPin, 0)
+    if r3Heat:
+        GPIO.output(r3HeatPin, 1)
+    else:
+        GPIO.output(r3HeatPin, 0)
+    if r4Heat:
+        GPIO.output(r4HeatPin, 1)
+    else:
+        GPIO.output(r4HeatPin, 0)
 
     time.sleep(1)
 
@@ -430,6 +366,11 @@ while not stop_loop:
 # Cleanup the GPIO pins
 r1wpwm.stop()
 r2wpwm.stop()
-mfspwm.stop()
+r3wpwm.stop()
+r4wpwm.stop()
+r12wpwm.stop()
+r23wpwm.stop()
+r34wpwm.stop()
+r41wpwm.stop()
 GPIO.cleanup()
 ser.close()
