@@ -7,7 +7,6 @@ import tkinter as tk
 
 
 def runSim():
-    # print(f"{heatVar.get()}\n{acVar.get()}")
     acCheck = int(acVar.get())
     heatCheck = int(heatVar.get())
     room = int(roomSelect.get())
