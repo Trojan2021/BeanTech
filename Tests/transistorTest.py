@@ -14,8 +14,3 @@ while True:
     # Turn on the transistor (active high)
     GPIO.output(controlPin, GPIO.HIGH)
     # Wait for some time
-    time.sleep(5)
-    # Turn off the transistor
-    GPIO.output(controlPin, GPIO.LOW)
-    # Wait for some time
-    time.sleep(5)
