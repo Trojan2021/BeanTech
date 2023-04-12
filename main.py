@@ -4,6 +4,14 @@ import time
 import keyboard
 import RPi.GPIO as GPIO
 import serial
+from adafruit_servokit import ServoKit
+
+servoCount = 12
+
+pca = ServoKit(channels=16)
+
+for i in range(servoCount):
+    pca.servo[i].set_pulse_width_range(500, 2500)
 
 # Desired temp for Room 1
 # TODO this needs to be updated to include the website. These numbers will be coming from there now
@@ -17,40 +25,35 @@ GPIO.setmode(GPIO.BCM)
 
 
 # Set the GPIO pin values
-# TODO
-r1AcPin = 22
-r2AcPin = 0
-r3AcPin = 0
-r4AcPin = 0
-r1HeatPin = 23
-r2HeatPin = 0
-r3HeatPin = 0
-r4HeatPin = 0
+AcPin = 5
+r1HeatPin = 17
+r2HeatPin = 27
+r3HeatPin = 22
 
 # GPIO setup
-GPIO.setup(r1AcPin, GPIO.OUT)
-GPIO.setup(r2AcPin, GPIO.OUT)
-GPIO.setup(r3AcPin, GPIO.OUT)
-GPIO.setup(r4AcPin, GPIO.OUT)
+GPIO.setup(AcPin, GPIO.OUT)
 GPIO.setup(r1HeatPin, GPIO.OUT)
 GPIO.setup(r2HeatPin, GPIO.OUT)
 GPIO.setup(r3HeatPin, GPIO.OUT)
-GPIO.setup(r4HeatPin, GPIO.OUT)
 
 
 # SERVO CONTROL
 # Windows and middle flap
 
 # Set the GPIO pin values
-# TODO
+# TODO add in the new way of controlling servos
 r1wPin = 27
 r2wPin = 21
 r3wPin = 0
 r4wPin = 0
 r12wPin = 0
+r12fPin = 18
 r23wPin = 0
+r23fPin = 23
 r34wPin = 0
+r34fPin = 24
 r41wPin = 0
+r41fPin = 25
 
 # Set the PWM frequency to 50 Hz
 pwm_frequency = 50
@@ -115,12 +118,8 @@ r41Fan = False
 r1Heat = False
 r2Heat = False
 r3Heat = False
-r4Heat = False
 # Room air conditioning
-r1Ac = False
-r2Ac = False
-r3Ac = False
-r4Ac = False
+Ac = False
 
 
 stop_loop = False
@@ -161,12 +160,8 @@ while not stop_loop:
     r1Heat = False
     r2Heat = False
     r3Heat = False
-    r4Heat = False
     # Room air conditioning
-    r1Ac = False
-    r2Ac = False
-    r3Ac = False
-    r4Ac = False
+    Ac = False
 
     try:
         data = ser.readline().decode("utf-8").rstrip()
@@ -199,7 +194,7 @@ while not stop_loop:
             r41Fan = True
         # AC
         if acCheck and Room1Temp > DesiredTemp:
-            r1Ac = True
+            Ac = True
         # Outside Windows Cooling
         if OutsideTemp < Room1Temp and Room1Temp > DesiredTemp:
             r1w = True
@@ -225,7 +220,7 @@ while not stop_loop:
             r12Fan = True
         # AC
         if acCheck and Room2Temp > DesiredTemp:
-            r2Ac = True
+            Ac = True
         # Outside Windows Cooling
         if OutsideTemp < Room2Temp and Room2Temp > DesiredTemp:
             r2w = True
@@ -251,7 +246,7 @@ while not stop_loop:
             r23Fan = True
         # AC
         if acCheck and Room3Temp > DesiredTemp:
-            r3Ac = True
+            Ac = True
         # Outside Windows Cooling
         if OutsideTemp < Room3Temp and Room3Temp > DesiredTemp:
             r3w = True
@@ -260,9 +255,6 @@ while not stop_loop:
             r3w = True
 
     elif room == 4:
-        # Heater
-        if heatCheck and Room4Temp < DesiredTemp:
-            r4Heat = True
         # Interior Window Forward
         if (Room1Temp > Room4Temp and Room4Temp < DesiredTemp) or (
             Room1Temp < Room4Temp and Room4Temp > DesiredTemp
@@ -277,7 +269,7 @@ while not stop_loop:
             r34Fan = True
         # AC
         if acCheck and Room4Temp > DesiredTemp:
-            r4Ac = True
+            Ac = True
         # Outside Windows Cooling
         if OutsideTemp < Room4Temp and Room4Temp > DesiredTemp:
             r4w = True
@@ -307,39 +299,39 @@ while not stop_loop:
     if r12w:
         set_servo_position(r12wpwm, 180)
         # TODO Turn on fan and control direction
+        if r12Fan:
+            GPIO.output(r12fPin, 1)
     else:
         set_servo_position(r12wpwm, 0)
         # TODO turn off fan
+        GPIO.output(r12fPin, 0)
     if r23w:
         set_servo_position(r23wpwm, 180)
+        if r23Fan:
+            GPIO.output(r23fPin, 1)
     else:
         set_servo_position(r23wpwm, 0)
+        GPIO.output(r23fPin, 0)
     if r34w:
         set_servo_position(r34wpwm, 180)
+        if r34Fan:
+            GPIO.output(r34fPin, 1)
     else:
         set_servo_position(r34wpwm, 0)
+        GPIO.output(r34fPin, 0)
     if r41w:
         set_servo_position(r41wpwm, 180)
+        if r41Fan:
+            GPIO.output(r41fPin, 1)
     else:
         set_servo_position(r41wpwm, 0)
+        GPIO.output(r41fPin, 0)
 
     # Air Conditioning
-    if r1Ac:
-        GPIO.output(r1AcPin, 1)
+    if Ac:
+        GPIO.output(AcPin, 1)
     else:
-        GPIO.output(r1AcPin, 0)
-    if r2Ac:
-        GPIO.output(r2AcPin, 1)
-    else:
-        GPIO.output(r2AcPin, 0)
-    if r3Ac:
-        GPIO.output(r3AcPin, 1)
-    else:
-        GPIO.output(r3AcPin, 0)
-    if r4Ac:
-        GPIO.output(r4AcPin, 1)
-    else:
-        GPIO.output(r4AcPin, 0)
+        GPIO.output(AcPin, 0)
 
     # Heating
     if r1Heat:
@@ -354,10 +346,6 @@ while not stop_loop:
         GPIO.output(r3HeatPin, 1)
     else:
         GPIO.output(r3HeatPin, 0)
-    if r4Heat:
-        GPIO.output(r4HeatPin, 1)
-    else:
-        GPIO.output(r4HeatPin, 0)
 
     time.sleep(1)
 

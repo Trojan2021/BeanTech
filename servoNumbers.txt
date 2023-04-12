@@ -1,12 +1,10 @@
 Room 1:
-    Window 0: 
+    Window 0:
         Up: 0
         Down: 180
     Window 1:
         Up: 180
         Down: 50
-    
-
 
 Room 2:
     Window 2:
@@ -21,8 +19,8 @@ Room 3:
         Up: 180
         Down: 30
     Window 5:
-        Up: 
-        Down: 
+        Up:
+        Down:
 
 Room 4:
     Window 6:
@@ -45,7 +43,7 @@ Room 41 Flap: 11
     Open: 90
     Close: 0
 
-
+Ac Control: 5
 
 
 Room 1 Heat: 17
@@ -57,6 +55,3 @@ Fan 12: 18
 Fan 23: 23
 Fan 34: 24
 Fan 41: 25
-
-
-
