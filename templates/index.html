@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset = "UTF-8">
+        <link rel = "stylesheet" href = "{{ url_for('static', filename = 'css/style.css') }}">
+        <title> BEAN TECH </title>
+        <script src = "https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            var acClick = 0, heatClick = 0, acText = 0, heatText = 0;
+            // Function for the state of the AC button
+            function AC() {
+                // Changes the button display from ON/OFF
+                var acButton = document.getElementById("acON");
+                if (acText == 0) {
+                    acButton.innerHTML = "ON";
+                    acText = 1;
+                } else {
+                    acButton.innerHTML = "OFF";
+                    acText = 0;
+                }
+                // Increments the click count to keep track of the state of the button
+                acClick++;
+                const formData = new FormData(document.querySelector('#on-off'));
+                formData.append('click_count', acClick);
+                fetch('/acbutton', {method: 'POST', body: formData})
+                    .then(response => response.text())
+                    .then(result => console.log('Result:', result))
+                    .catch(error => console.error('Error:', error));
+            }
+            // Function for the state of the Heater button
+            function heat() {
+                // Changes the button display from ON/OFF
+                var heatButton = document.getElementById("heatON");
+                if (heatText == 0) {
+                    heatButton.innerHTML = "ON";
+                    heatText = 1;
+                } else {
+                    heatButton.innerHTML = "OFF";
+                    heatText = 0;
+                }
+                heatClick++;
+                // Increments the click count to keep track of the state of the button
+                const formData = new FormData(document.querySelector('#on-off'));
+                formData.append('click_count', heatClick);
+                fetch('/heatbutton', {method: 'POST', body: formData})
+                    .then(response => response.text())
+                    .then(result => console.log('Result:', result))
+                    .catch(error => console.error('Error:', error));
+            }
+            // Function for live updating the current desired temperature and room
+            function updateValues(desiredTemp, room) {
+                $("#desiredTempSpan").text(desiredTemp);
+                $("#roomSpan").text(room);
+            }
+            // Function for taking the user input for desired temperature and room
+            function submitForm(event) {
+                // Prevents the form from submitting normally
+                event.preventDefault();
+                // Get the values of the inputs
+                var input1 = document.getElementById("desired").value;
+                var input2 = document.getElementById("room").value;
+                updateValues(input1, input2);
+                fetch("/userinput", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: "desiredtemp=" + encodeURIComponent(input1) + "&room=" + encodeURIComponent(input2)
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    // Clears the inputs
+                    document.getElementById("desired").value = "";
+                    document.getElementById("room").value = "";
+                })
+                .catch(error => console.log(error));
+            }
+        </script>
+    </head>
+    <body style = "background-color: white">
+        <h1> BEAN <span class = "green"> TECH </span> </h1>
+        <div class = "columns">
+            <div class = "column left">
+                <table class = "center">
+                    <tr>
+                        <td class = "roomtemp"> 
+                            <strong> Room 1 </strong>
+                            <br> Temp: -- °F 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class = "roomtemp"> 
+                            <strong> Room 2 </strong>
+                            <br> Temp: -- °F 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class = "roomtemp"> 
+                            <strong> Room 3 </strong>
+                            <br> Temp: -- °F 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class = "roomtemp"> 
+                            <strong> Room 4 </strong>
+                            <br> Temp: -- °F 
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class = "column middle">
+                <img src="{{ url_for('static', filename = 'images/maxresdefault.jpg') }}" alt = "Room Display" width = "720" height = "480">
+            </div>
+            <div class = "column right">
+                <table class = "center">
+                    <tr>
+                        <td class = "roomtemp"> 
+                            <strong> Current Temp </strong>
+                            <br> Temp: -- °F 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class = "control">
+                            <strong> Control: </strong>
+                            <br> 
+                                <form id = "on-off" action = "/acbutton" method = "POST">
+                                    AC: 
+                                    <button type = "button" id = "acON" onclick = "AC()"> OFF </button>
+                                </form>
+                                <form id = "on-off" action = "/heatbutton" method = "POST">
+                                    Heater: 
+                                    <button type = "button" id = "heatON" onclick = "heat()"> OFF </button>
+                                </form>
+                                <form onsubmit = "submitForm(event)">
+                                    Current Desired: <span id = "desiredTempSpan"> N/A </span> °F
+                                    <br>
+                                    <label for = "desired"> New Desired: </label>
+                                    <input type = "text" id = "desired" name = "desiredtemp">
+                                <br>
+                                    Current Room: <span id = "roomSpan"> N/A </span>
+                                    <br>
+                                    <label for = "room"> New Room: </label>
+                                    <input type = "text" id = "room" name = "room">
+                                <br>
+                                    <button type = "submit"> Run Simulation </button>
+                                </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

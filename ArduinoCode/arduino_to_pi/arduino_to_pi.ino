@@ -2,10 +2,10 @@
 
 // Pin Definitions for Temperature Sensors
 #define R1DHTPIN 2   // Pin which is connected to the DHT22 sensor
-#define R2DHTPIN 4   // Pin which is connected to the DHT11 sensor
-#define R3DHTPIN 0   // Pin which is connected to the DHT11 sensor
-#define R4DHTPIN 0   // Pin which is connected to the DHT11 sensor
-#define OUTDHTPIN 0   // Pin which is connected to the DHT11 sensor
+#define R2DHTPIN 3   // Pin which is connected to the DHT11 sensor
+#define R3DHTPIN 4   // Pin which is connected to the DHT11 sensor
+#define R4DHTPIN 5   // Pin which is connected to the DHT11 sensor
+#define OUTDHTPIN 6   // Pin which is connected to the DHT11 sensor
 #define R1DHT DHT11  // DHT22 sensor type
 #define R2DHT DHT11  // DHT11 sensor type
 #define R3DHT DHT11  // DHT11 sensor type

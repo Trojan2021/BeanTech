@@ -1,8 +1,9 @@
 import RPi.GPIO as GPIO
 import time
+import sys
 
 # Pin definition
-controlPin = 17
+controlPin = int(sys.argv[1])
 
 # GPIO setup
 GPIO.setmode(GPIO.BCM)

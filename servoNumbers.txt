@@ -1,0 +1,62 @@
+Room 1:
+    Window 0: 
+        Up: 0
+        Down: 180
+    Window 1:
+        Up: 180
+        Down: 50
+    
+
+
+Room 2:
+    Window 2:
+        Up: 0
+        Down: 180
+    Window 3:
+        Up: 0
+        Down: 180
+
+Room 3:
+    Window 4:
+        Up: 180
+        Down: 30
+    Window 5:
+        Up: 
+        Down: 
+
+Room 4:
+    Window 6:
+        Up: 0
+        Down: 180
+    Window 7:
+        Up: 0
+        Down: 180
+
+Room 12 Flap: 8
+    Open: 90
+    Close: 0
+Room 23 Flap: 9
+    Open: 90
+    Close: 0
+Room 34 Flap: 10
+    Open: 90
+    Close: 0
+Room 41 Flap: 11
+    Open: 90
+    Close: 0
+
+
+
+
+Room 1 Heat: 17
+Room 2 Heat: 27
+Room 3 Heat: 22
+
+
+Fan 12: 18
+Fan 23: 23
+Fan 34: 24
+Fan 41: 25
+
+
+

@@ -14,6 +14,6 @@ GPIO.setup(pin1, GPIO.OUT)
 
 GPIO.output(pin1, entered)
 
-time.sleep(3)
+time.sleep(10)
 
 GPIO.cleanup()
