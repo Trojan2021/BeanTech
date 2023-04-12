@@ -1,12 +1,11 @@
-# The Cool Beans @ Make OHI/O 2023
+# BEAN TECH
 
-At Make OHI/O 2023, our project is a demonstration of our goal to bring more energy and cost effective heating and cooling to homes. We built a mock house that contains two separate rooms (however these rooms are identical) with features to maximize our goal. It contains (per room):
+Our project is a demonstration of the goal to bring more energy and cost effective heating and cooling to residential buildings. We built a mock house that contains per room:
 
-*   Two heating pads at the bottom of each room, simulating radiant floor heating.
+*   Two heating pads at the bottom of each room (simulating radiant floor heating)
 *   A tubing system with fans and ice water (to simulate chilled water air conditioning)
 *   An automated window system
 *   A through-wall ventilation fan
-*   A rotatory sensor to identify the wind direction
 
 All these features allow complete control of the temperature of the environment in the best way possible.
 
@@ -23,14 +22,17 @@ All these features allow complete control of the temperature of the environment 
 *   If a room needs to be coooled, and the outside temperature is cold with a cross breeze.
     - Then the system will open the window to create an effective draft.
 
-Instead of making each of these decisions ourselves, our goal is to have the program decide to do the best possible solution based on the desired temperature requested by the client. However, in just 24 hours this is a little ambitious so we have created the functionality of each aspect but it still requires manual input. The temperature display is shown using a simple python GUI with each situation to showcase the functionalities and how they work. Looking at existing smart AC systems, they estimate saving users between 10% - 25% on costs. With our hyper-efficient project using AC and heating as minimally as possible, we're estimating saving our users 20% - 30%. 
+Instead of making each of these decisions ourselves, our goal is to have the program decide to do the best possible solution based on the desired temperature requested by the client. However, we are in the early stages of prototyping so we have created the functionality of each aspect but it still requires manual input. The temperature display and user input is shown using a simple web application with HTML, CSS, Flask, Javascript, and Python. Looking at existing smart AC systems, they estimate saving users between 10% - 25% on costs. With our hyper-efficient project using AC and heating as minimally as possible, we're estimating saving our users 20% - 30%.
 
 How does it work?
 
-All the sensors used (temperature, photoresistors, and a rotatory encoder) are read through the Arduino using its analog inputs. Once read, we send the information over to the Raspberry Pi using a serial connection. Based on the given information and picked scenario, we control the fans, servos, and heating pads that are all operated using the Pi. The main program allows customized use of our programmed scenarios with the hardware to simulate our project inside the mock house.
+The temperature sensors are read through the Arduino using its analog inputs. Once read, we send the information over to the Raspberry Pi using a serial connection. Based on the given information and picked scenario, we control the fans, servos, air conditioning, and heating pads that are all operated using the Pi. The main program allows customized use of our programmed scenarios with the hardware to simulate our project inside the mock house.
 
 NEXT STEPS:
 
-*   Develop an interface for the program for easy use
-*   Integrate with Home Assistant (open source home automation program)
-*   Saving presets (possibly with facial recognition)
+*   Integrating with Home Assistant (open source home automation program)
+*   Saving presets (with facial recognition)
+*   Fixing security vulnerabilities 
+*   Wifi compatibility
+*   Upscaling the project for real world application
+
