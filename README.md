@@ -1,6 +1,6 @@
 # BEAN TECH
 
-Our project is a demonstration of the goal to bring more energy and cost effective heating and cooling to residential buildings. We built a mock house that contains per room:
+Our project is a demonstration of the goal to bring more energy and cost effective heating and cooling to residential buildings. We built a mock house that contains the following per room:
 
 *   Two heating pads at the bottom of each room (simulating radiant floor heating)
 *   A tubing system with fans and ice water (to simulate chilled water air conditioning)
@@ -26,7 +26,7 @@ Instead of making each of these decisions ourselves, our goal is to have the pro
 
 How does it work?
 
-The temperature sensors are read through the Arduino using its analog inputs. Once read, we send the information over to the Raspberry Pi using a serial connection. Based on the given information and picked scenario, we control the fans, servos, air conditioning, and heating pads that are all operated using the Pi. The main program allows customized use of our programmed scenarios with the hardware to simulate our project inside the mock house.
+The temperature sensors are read through the Arduino using its analog inputs. Once read, we send the information over to the Raspberry Pi using a serial connection with an Arduino Uno. Based on the given information and picked scenario, we control the fans, servos, air conditioning, and heating pads with the Pi. The main program allows full control of a single room in the house. This control allows for the room to be heated or cooled by your desired method/s.
 
 NEXT STEPS:
 
