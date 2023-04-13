@@ -1,21 +1,13 @@
 h1 {
-    color: rgb(15, 28, 169);
-    text-align: center;
-    font-size: 75px;
-    font-weight: bold;
-    font-family: Tahoma;
-    padding: 10px;
-}
-
-.green {
-    color: rgb(26, 169, 26);
+    padding: 75px;
 }
 
 .column {
     float: left;
 }
 
-.left, .right {
+.left,
+.right {
     width: 25%;
 }
 
@@ -63,9 +55,9 @@ button {
     color: black;
     text-align: center;
     font-size: 20px;
-  }
-  
+}
+
 button:hover {
     background-color: #abafab;
     color: white;
-  }
+}
