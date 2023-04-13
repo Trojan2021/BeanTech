@@ -6,10 +6,13 @@ import RPi.GPIO as GPIO
 import serial
 from adafruit_servokit import ServoKit
 
+# Amount of servos
 servoCount = 12
 
+# Define the servo controller
 pca = ServoKit(channels=16)
 
+# Make each of the servos
 for i in range(servoCount):
     pca.servo[i].set_pulse_width_range(500, 2500)
 
@@ -37,58 +40,11 @@ GPIO.setup(r2HeatPin, GPIO.OUT)
 GPIO.setup(r3HeatPin, GPIO.OUT)
 
 
-# SERVO CONTROL
-# Windows and middle flap
-
-# Set the GPIO pin values
-# TODO add in the new way of controlling servos
-r1wPin = 27
-r2wPin = 21
-r3wPin = 0
-r4wPin = 0
-r12wPin = 0
+# Set the GPIO pin values for interior
 r12fPin = 18
-r23wPin = 0
 r23fPin = 23
-r34wPin = 0
 r34fPin = 24
-r41wPin = 0
 r41fPin = 25
-
-# Set the PWM frequency to 50 Hz
-pwm_frequency = 50
-
-# Set the duty cycle range (in percent) for the servo motor
-duty_cycle_min = 2
-duty_cycle_max = 12
-
-# Setup the GPIO pin as a PWM output
-GPIO.setup(r1wPin, GPIO.OUT)
-GPIO.setup(r2wPin, GPIO.OUT)
-GPIO.setup(r3wPin, GPIO.OUT)
-GPIO.setup(r4wPin, GPIO.OUT)
-GPIO.setup(r12wPin, GPIO.OUT)
-GPIO.setup(r23wPin, GPIO.OUT)
-GPIO.setup(r34wPin, GPIO.OUT)
-GPIO.setup(r41wPin, GPIO.OUT)
-r1wpwm = GPIO.PWM(r1wPin, pwm_frequency)
-r2wpwm = GPIO.PWM(r2wPin, pwm_frequency)
-r3wpwm = GPIO.PWM(r3wPin, pwm_frequency)
-r4wpwm = GPIO.PWM(r4wPin, pwm_frequency)
-r12wpwm = GPIO.PWM(r12wPin, pwm_frequency)
-r23wpwm = GPIO.PWM(r23wPin, pwm_frequency)
-r34wpwm = GPIO.PWM(r34wPin, pwm_frequency)
-r41wpwm = GPIO.PWM(r41wPin, pwm_frequency)
-
-# Start the PWM output with a 0% duty cycle
-r1wpwm.start(0)
-r2wpwm.start(0)
-r3wpwm.start(0)
-r4wpwm.start(0)
-r12wpwm.start(0)
-r23wpwm.start(0)
-r34wpwm.start(0)
-r41wpwm.start(0)
 
 
 # Function to set the servo position
@@ -136,11 +92,11 @@ while not stop_loop:
     # TODO heatCheck = int(heatVar.get())
     # TODO room = int(roomSelect.get())
     # TODO DesiredTemp = int(desiredTemp.get())
-    Room1Temp = 999
-    Room2Temp = 999
-    Room3Temp = 999
-    Room4Temp = 999
-    OutsideTemp = 999
+    Room1Temp = float("inf")
+    Room2Temp = float("inf")
+    Room3Temp = float("inf")
+    Room4Temp = float("inf")
+    OutsideTemp = float("inf")
     # Exterior windows
     r1w = False
     r2w = False
@@ -279,52 +235,58 @@ while not stop_loop:
 
     # Servos for exterior windows
     if r1w:
-        set_servo_position(r1wpwm, 180)
+        pca.servo[0].angle = 0
+        pca.servo[1].angle = 180
     else:
-        set_servo_position(r1wpwm, 0)
+        pca.servo[0].angle = 180
+        pca.servo[1].angle = 0
     if r2w:
-        set_servo_position(r2wpwm, 180)
+        pca.servo[2].angle = 0
+        pca.servo[3].angle = 0
     else:
-        set_servo_position(r2wpwm, 0)
+        pca.servo[2].angle = 180
+        pca.servo[3].angle = 180
     if r3w:
-        set_servo_position(r3wpwm, 180)
+        pca.servo[4].angle = 180
+        pca.servo[5].angle = 120
     else:
-        set_servo_position(r3wpwm, 0)
+        pca.servo[4].angle = 30
+        pca.servo[5].angle = 0
     if r4w:
-        set_servo_position(r4wpwm, 180)
+        pca.servo[6].angle = 0
+        pca.servo[7].angle = 0
     else:
-        set_servo_position(r4wpwm, 0)
+        pca.servo[6].angle = 180
+        pca.servo[7].angle = 180
 
     # Servos for interior windows
     if r12w:
-        set_servo_position(r12wpwm, 180)
-        # TODO Turn on fan and control direction
+        pca.servo[8].angle = 90
         if r12Fan:
             GPIO.output(r12fPin, 1)
     else:
-        set_servo_position(r12wpwm, 0)
-        # TODO turn off fan
+        pca.servo[8].angle = 0
         GPIO.output(r12fPin, 0)
     if r23w:
-        set_servo_position(r23wpwm, 180)
+        pca.servo[9].angle = 90
         if r23Fan:
             GPIO.output(r23fPin, 1)
     else:
-        set_servo_position(r23wpwm, 0)
+        pca.servo[9].angle = 0
         GPIO.output(r23fPin, 0)
     if r34w:
-        set_servo_position(r34wpwm, 180)
+        pca.servo[10].angle = 90
         if r34Fan:
             GPIO.output(r34fPin, 1)
     else:
-        set_servo_position(r34wpwm, 0)
+        pca.servo[10].angle = 0
         GPIO.output(r34fPin, 0)
     if r41w:
-        set_servo_position(r41wpwm, 180)
+        pca.servo[11].angle = 90
         if r41Fan:
             GPIO.output(r41fPin, 1)
     else:
-        set_servo_position(r41wpwm, 0)
+        pca.servo[11].angle = 0
         GPIO.output(r41fPin, 0)
 
     # Air Conditioning
@@ -351,13 +313,5 @@ while not stop_loop:
 
 
 # Cleanup the GPIO pins
-r1wpwm.stop()
-r2wpwm.stop()
-r3wpwm.stop()
-r4wpwm.stop()
-r12wpwm.stop()
-r23wpwm.stop()
-r34wpwm.stop()
-r41wpwm.stop()
 GPIO.cleanup()
 ser.close()
