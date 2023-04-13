@@ -19,7 +19,7 @@ for i in range(servoCount):
 
 
 # Define the serial port and baud rate for the arduino
-ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
+ser = serial.Serial("/dev/ttyAMA0", 9600, timeout=1)
 
 # Setup proper board type
 GPIO.setmode(GPIO.BCM)
@@ -43,6 +43,11 @@ r12fPin = 18
 r23fPin = 23
 r34fPin = 24
 r41fPin = 25
+
+GPIO.setup(r12fPin, GPIO.OUT)
+GPIO.setup(r23fPin, GPIO.OUT)
+GPIO.setup(r34fPin, GPIO.OUT)
+GPIO.setup(r41fPin, GPIO.OUT)
 
 
 # Variables
