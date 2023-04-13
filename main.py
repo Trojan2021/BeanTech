@@ -1,7 +1,7 @@
 import sys
 import time
 
-import keyboard
+
 import RPi.GPIO as GPIO
 import serial
 from adafruit_servokit import ServoKit
@@ -16,9 +16,6 @@ pca = ServoKit(channels=16)
 for i in range(servoCount):
     pca.servo[i].set_pulse_width_range(500, 2500)
 
-# Desired temp for Room 1
-# TODO this needs to be updated to include the website. These numbers will be coming from there now
-desiredTemp = float(sys.argv[1])
 
 # Define the serial port and baud rate for the arduino
 ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
@@ -45,13 +42,6 @@ r12fPin = 18
 r23fPin = 23
 r34fPin = 24
 r41fPin = 25
-
-
-# Function to set the servo position
-def set_servo_position(pwm, angle):
-    duty_cycle = ((angle / 180) * (duty_cycle_max - duty_cycle_min)) + duty_cycle_min
-    pwm.ChangeDutyCycle(duty_cycle)
-    time.sleep(0.5)
 
 
 # Variables
