@@ -14,17 +14,23 @@ li = json.loads(inputResponse.text)
 print("Desired: " + li[0])
 print("Room: " + li[1])
 
+Room1Temp = 73
+Room2Temp = 60
+Room3Temp = 71
+Room4Temp = 80
+OutsideTemp = 72
+
+requests.post('http://localhost:5000/room1', json={'room1temp': Room1Temp})
+requests.post('http://localhost:5000/room2', json={'room2temp': Room2Temp})
+requests.post('http://localhost:5000/room3', json={'room3temp': Room3Temp})
+requests.post('http://localhost:5000/room4', json={'room4temp': Room4Temp})
+requests.post('http://localhost:5000/outside', json={'outside': OutsideTemp})
+
 def runSim():
     acCheck = int(acOnOff)
     heatCheck = int(heatOnOff)
     room = int(li[1])
     DesiredTemp = int(li[0])
-    
-    Room1Temp = 75
-    Room2Temp = 60
-    Room3Temp = 71
-    Room4Temp = 80
-    OutsideTemp = 72
     
     #Room1Temp = int(room1Temp.get())
     #Room2Temp = int(room2Temp.get())

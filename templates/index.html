@@ -77,6 +77,61 @@
                 .catch(error => console.log(error));
             }
         </script>
+        <script>
+            // Updates the temperature of Room 1
+            function updateRoom1() {
+                fetch('/room1')
+                    .then(response => response.text())
+                    .then(value => {
+                        document.getElementById('room1').innerText = value;
+                    });
+            }
+            setInterval(updateRoom1, 5000);
+        </script>
+        <script>
+            // Updates the temperature of Room 2
+            function updateRoom2() {
+                fetch('/room2')
+                    .then(response => response.text())
+                    .then(value => {
+                        document.getElementById('room2').innerText = value;
+                    });
+            }
+            setInterval(updateRoom2, 5000);
+        </script>
+        <script>
+            // Updates the temperature of Room 3
+            function updateRoom3() {
+                fetch('/room3')
+                    .then(response => response.text())
+                    .then(value => {
+                        document.getElementById('room3').innerText = value;
+                    });
+            }
+            setInterval(updateRoom3, 5000);
+        </script>
+        <script>
+            // Updates the temperature of Room 4
+            function updateRoom4() {
+                fetch('/room4')
+                    .then(response => response.text())
+                    .then(value => {
+                        document.getElementById('room4').innerText = value;
+                    });
+            }
+            setInterval(updateRoom4, 5000);
+        </script>
+        <script>
+            // Updates the temperature of Outside
+            function updateOutside() {
+                fetch('/outside')
+                    .then(response => response.text())
+                    .then(value => {
+                        document.getElementById('outside').innerText = value;
+                    });
+            }
+            setInterval(updateOutside, 5000);
+        </script>
     </head>
     <body style = "background-color: white">
         <h1> BEAN <span class = "green"> TECH </span> </h1>
@@ -86,25 +141,25 @@
                     <tr>
                         <td class = "roomtemp"> 
                             <strong> Room 1 </strong>
-                            <br> Temp: -- °F 
+                            <br> Temp: <span id = "room1"> {{ value }} </span> °F
                         </td>
                     </tr>
                     <tr>
                         <td class = "roomtemp"> 
                             <strong> Room 2 </strong>
-                            <br> Temp: -- °F 
+                            <br> Temp: <span id = "room2"> {{ value }} </span> °F 
                         </td>
                     </tr>
                     <tr>
                         <td class = "roomtemp"> 
                             <strong> Room 3 </strong>
-                            <br> Temp: -- °F 
+                            <br> Temp: <span id = "room3"> {{ value }} </span> °F 
                         </td>
                     </tr>
                     <tr>
                         <td class = "roomtemp"> 
                             <strong> Room 4 </strong>
-                            <br> Temp: -- °F 
+                            <br> Temp: <span id = "room4"> {{ value }} </span> °F 
                         </td>
                     </tr>
                 </table>
@@ -116,8 +171,8 @@
                 <table class = "center">
                     <tr>
                         <td class = "roomtemp"> 
-                            <strong> Current Temp </strong>
-                            <br> Temp: -- °F 
+                            <strong> Outside Temp </strong>
+                            <br> Temp: <span id = "outside"> {{ value }} </span> °F 
                         </td>
                     </tr>
                     <tr>
