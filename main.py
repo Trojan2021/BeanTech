@@ -1,7 +1,8 @@
+import json
 import sys
 import time
 
-
+import requests
 import RPi.GPIO as GPIO
 import serial
 from adafruit_servokit import ServoKit
@@ -78,15 +79,25 @@ except UnicodeDecodeError as e:
     pass
 
 while not stop_loop:
-    # TODO acCheck = int(acVar.get())
-    # TODO heatCheck = int(heatVar.get())
-    # TODO room = int(roomSelect.get())
-    # TODO DesiredTemp = int(desiredTemp.get())
+    acResponse = requests.get("http://localhost:5000/acOnOff")
+    acOnOff = acResponse.text
+    acCheck = int(acOnOff)
+
+    heatResponse = requests.get("http://localhost:5000/heatOnOff")
+    heatOnOff = heatResponse.text
+    heatCheck = int(heatOnOff)
+
+    inputResponse = requests.get("http://localhost:5000/input")
+    li = json.loads(inputResponse.text)
+    room = int(li[1])
+    DesiredTemp = int(li[0])
+
     Room1Temp = float("inf")
     Room2Temp = float("inf")
     Room3Temp = float("inf")
     Room4Temp = float("inf")
     OutsideTemp = float("inf")
+
     # Exterior windows
     r1w = False
     r2w = False
@@ -118,6 +129,12 @@ while not stop_loop:
         Room3Temp = float(values[2])
         Room4Temp = float(values[3])
         OutsideTemp = float(values[4])
+
+        requests.post("http://localhost:5000/room1", json={"room1temp": Room1Temp})
+        requests.post("http://localhost:5000/room2", json={"room2temp": Room2Temp})
+        requests.post("http://localhost:5000/room3", json={"room3temp": Room3Temp})
+        requests.post("http://localhost:5000/room4", json={"room4temp": Room4Temp})
+        requests.post("http://localhost:5000/outside", json={"outside": OutsideTemp})
 
     except UnicodeDecodeError as e:
         pass
