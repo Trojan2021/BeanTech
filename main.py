@@ -19,7 +19,7 @@ for i in range(servoCount):
 
 
 # Define the serial port and baud rate for the arduino
-ser = serial.Serial("/dev/ttyAMA0", 9600, timeout=1)
+ser = serial.Serial("/dev/ttyACM0", 9600, timeout=1)
 
 # Setup proper board type
 GPIO.setmode(GPIO.BCM)
@@ -27,7 +27,7 @@ GPIO.setmode(GPIO.BCM)
 
 # Set the GPIO pin values
 AcPin = 5
-r1HeatPin = 17
+r1HeatPin = 13
 r2HeatPin = 27
 r3HeatPin = 22
 
@@ -40,7 +40,7 @@ GPIO.setup(r3HeatPin, GPIO.OUT)
 
 # Set the GPIO pin values for interior
 r12fPin = 18
-r23fPin = 23
+r23fPin = 6
 r34fPin = 24
 r41fPin = 25
 
@@ -143,6 +143,12 @@ while not stop_loop:
 
     except UnicodeDecodeError as e:
         pass
+    
+    except IndexError as e:
+        pass
+    
+    except ValueError as e:
+        pass
 
     if room == 1:
         # Heater
@@ -153,7 +159,7 @@ while not stop_loop:
             Room2Temp < Room1Temp and Room1Temp > DesiredTemp
         ):
             r12w = True
-            r12Fan = False
+            r12Fan = True
         # Interior Window Backward
         if (Room4Temp > Room1Temp and Room1Temp < DesiredTemp) or (
             Room4Temp < Room1Temp and Room1Temp > DesiredTemp
@@ -179,7 +185,7 @@ while not stop_loop:
             Room3Temp < Room2Temp and Room2Temp > DesiredTemp
         ):
             r23w = True
-            r23Fan = False
+            r23Fan = True
         # Interior Window Backward
         if (Room1Temp > Room2Temp and Room2Temp < DesiredTemp) or (
             Room1Temp < Room2Temp and Room2Temp > DesiredTemp
@@ -205,7 +211,7 @@ while not stop_loop:
             Room4Temp < Room3Temp and Room3Temp > DesiredTemp
         ):
             r34w = True
-            r34Fan = False
+            r34Fan = True
         # Interior Window Backward
         if (Room2Temp > Room3Temp and Room3Temp < DesiredTemp) or (
             Room2Temp < Room3Temp and Room3Temp > DesiredTemp
@@ -228,7 +234,7 @@ while not stop_loop:
             Room1Temp < Room4Temp and Room4Temp > DesiredTemp
         ):
             r41w = True
-            r41Fan = False
+            r41Fan = True
         # Interior Window Backward
         if (Room3Temp > Room4Temp and Room4Temp < DesiredTemp) or (
             Room3Temp < Room4Temp and Room4Temp > DesiredTemp
@@ -321,7 +327,7 @@ while not stop_loop:
     else:
         GPIO.output(r3HeatPin, 0)
 
-    time.sleep(1)
+    #time.sleep(1)
 
 
 # Cleanup the GPIO pins

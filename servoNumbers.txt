@@ -52,6 +52,6 @@ Room 3 Heat: 22
 
 
 Fan 12: 18
-Fan 23: 23
+Fan 23: 6
 Fan 34: 24
 Fan 41: 25
