@@ -1,5 +1,4 @@
 import json
-import time
 
 import requests
 import RPi.GPIO as GPIO
@@ -142,11 +141,11 @@ while not stop_loop:
 
     except UnicodeDecodeError:
         pass
-    
-    except IndexError as e:
+
+    except IndexError:
         pass
-    
-    except ValueError as e:
+
+    except ValueError:
         pass
 
     if room == 1:
@@ -326,7 +325,7 @@ while not stop_loop:
     else:
         GPIO.output(r3HeatPin, 0)
 
-    #time.sleep(1)
+    # time.sleep(1)
 
 
 # Cleanup the GPIO pins
