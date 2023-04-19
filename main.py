@@ -1,5 +1,4 @@
 import json
-import sys
 import time
 
 import requests
@@ -75,7 +74,7 @@ stop_loop = False
 # In testing, sometimes this data was causing errors
 try:
     data = ser.readline().decode("utf-8").rstrip()
-except UnicodeDecodeError as e:
+except UnicodeDecodeError:
     pass
 
 while not stop_loop:
@@ -136,7 +135,7 @@ while not stop_loop:
         requests.post("http://localhost:5000/room4", json={"room4temp": Room4Temp})
         requests.post("http://localhost:5000/outside", json={"outside": OutsideTemp})
 
-    except UnicodeDecodeError as e:
+    except UnicodeDecodeError:
         pass
 
     if room == 1:
