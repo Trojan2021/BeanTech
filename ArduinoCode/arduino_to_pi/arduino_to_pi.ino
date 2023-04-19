@@ -1,3 +1,4 @@
+
 #include <DHT.h>
 
 // Pin Definitions for Temperature Sensors
@@ -34,11 +35,11 @@ void setup() {
 void loop() {
 
   // Read Temperature in Celsius
-  float R1Temp = r1.readTemperature();
-  float R2Temp = r2.readTemperature();
-  float R3Temp = r3.readTemperature();
-  float R4Temp = r4.readTemperature();
-  float OUTTemp = out.readTemperature();
+  float R1Temp = (r1.readTemperature()) * (9/5.0) + 32;
+  float R2Temp = (r2.readTemperature()) * (9/5.0) + 32;
+  float R3Temp = (r3.readTemperature()) * (9/5.0) + 32;
+  float R4Temp = (r4.readTemperature()) * (9/5.0) + 32;
+  float OUTTemp = (out.readTemperature()) * (9/5.0) + 32;
 
   Serial.println(String(R1Temp) + "," + String(R2Temp) + "," + String(R3Temp) + "," + String(R4Temp) + "," + String(OUTTemp));
 }
